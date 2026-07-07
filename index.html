@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Weinberg Class 🎓</title>
+<title>Chong Hua People 🎓</title>
 <meta name="theme-color" content="#1e3a5f"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&family=Playfair+Display:ital,wght@0,600;1,600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:15px;overflow:hidden}
@@ -463,6 +463,55 @@ img{max-width:100%;display:block}
 .ures-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;overflow:hidden}
 .ures-av img{width:100%;height:100%;object-fit:cover}
 .ures-nm{flex:1;font-size:13.5px;font-weight:600;color:#fff}
+/* NOTIFICATIONS */
+.notif-btn{position:relative}
+.notif-bdg{position:absolute;top:-3px;right:-3px;background:var(--pk2);color:#fff;font-size:9px;font-weight:800;min-width:15px;height:15px;border-radius:var(--rf);display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid #090e1a}
+.notif-bdg.hide{display:none}
+.notif-panel{position:fixed;top:52px;right:14px;width:320px;max-height:420px;background:#12182b;border:1px solid var(--bdr);border-radius:14px;box-shadow:var(--sh);z-index:995;display:none;flex-direction:column;overflow:hidden}
+.notif-panel.on{display:flex}
+.notif-hd{padding:11px 14px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between}
+.notif-hd h4{font-size:13px;font-weight:800;color:#fff}
+.notif-hd button{background:none;border:none;color:var(--b3);font-size:11px;cursor:pointer;font-weight:600}
+.notif-list{overflow-y:auto;padding:6px}
+.notif-item{display:flex;gap:9px;padding:9px 8px;border-radius:9px;cursor:pointer;transition:background .12s}
+.notif-item:hover{background:rgba(255,255,255,.05)}
+.notif-item.unread{background:rgba(37,99,235,.08)}
+.notif-ico{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;background:rgba(219,39,119,.18)}
+.notif-txt{flex:1;font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.4}
+.notif-ts{font-size:9.5px;color:rgba(255,255,255,.32);margin-top:2px}
+/* TAG SUGGEST (confessions + find-people) */
+.tag-wrap{position:relative}
+.tag-suggest{position:absolute;top:100%;left:0;right:0;background:#161d33;border:1px solid rgba(255,255,255,.14);border-radius:9px;margin-top:4px;max-height:200px;overflow-y:auto;z-index:20;box-shadow:var(--sh);display:none}
+.tag-suggest.on{display:block}
+.tag-opt{display:flex;align-items:center;gap:8px;padding:8px 10px;cursor:pointer;transition:background .1s}
+.tag-opt:hover,.tag-opt.hi{background:rgba(219,39,119,.14)}
+.tag-opt-nm{font-size:13px;font-weight:600;color:#fff}
+.tag-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(219,39,119,.18);border:1px solid rgba(219,39,119,.3);color:#f9a8d4;padding:5px 10px;border-radius:var(--rf);font-size:12.5px;font-weight:700;margin-top:2px}
+.tag-chip button{background:none;border:none;color:#f9a8d4;cursor:pointer;font-size:12px;padding:0;line-height:1}
+/* ROMANTIC CONFESSION LETTER */
+.conf-compose h3{font-family:'Dancing Script',cursive;font-size:20px;color:#f9a8d4}
+.conf-letter{font-family:'Playfair Display',serif;font-style:italic}
+.conf-card{cursor:pointer;transition:transform .15s var(--ease),box-shadow .15s;position:relative;overflow:hidden}
+.conf-card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(219,39,119,.14)}
+.conf-card::before{content:'💌';position:absolute;right:-6px;bottom:-10px;font-size:46px;opacity:.05;transform:rotate(-12deg)}
+.conf-card-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:13.5px;color:rgba(255,255,255,.55);white-space:pre-wrap;max-height:54px;overflow:hidden;line-height:1.6}
+/* LETTER OPEN MODAL */
+#letter-modal{position:fixed;inset:0;z-index:996;background:rgba(9,6,14,.88);display:none;align-items:center;justify-content:center;padding:20px}
+#letter-modal.on{display:flex}
+.letter-envelope{width:100%;max-width:420px;perspective:1200px}
+.letter-paper{background:linear-gradient(160deg,#fdf6ec,#f7e9d7);border-radius:6px;padding:32px 26px;box-shadow:0 30px 70px rgba(0,0,0,.55);position:relative;transform:rotateX(-90deg);transform-origin:top center;animation:unfoldLetter .7s cubic-bezier(.2,.9,.3,1.05) forwards}
+@keyframes unfoldLetter{0%{transform:rotateX(-90deg);opacity:0}60%{opacity:1}100%{transform:rotateX(0deg);opacity:1}}
+.letter-seal{position:absolute;top:-18px;left:50%;transform:translateX(-50%) scale(0);width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e8829c,#c23a63);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 10px rgba(0,0,0,.35);animation:sealPop .5s ease .6s forwards}
+@keyframes sealPop{0%{transform:translateX(-50%) scale(0)}70%{transform:translateX(-50%) scale(1.25)}100%{transform:translateX(-50%) scale(1)}}
+.letter-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#8a6a52;font-size:18px;cursor:pointer;opacity:.6}
+.letter-close:hover{opacity:1}
+.letter-hd{font-family:'Dancing Script',cursive;font-size:24px;color:#a8365a;text-align:center;margin-bottom:6px}
+.letter-to{font-family:'Playfair Display',serif;font-size:12.5px;color:#8a6a52;text-align:center;margin-bottom:16px;letter-spacing:.4px}
+.letter-body{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;line-height:1.85;color:#3d2e22;white-space:pre-wrap;opacity:0;animation:fadeInk 1s ease .9s forwards}
+@keyframes fadeInk{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.letter-hearts{text-align:center;margin-top:16px;font-size:13px;opacity:0;animation:fadeInk 1s ease 1.3s forwards}
+/* PROFILE PIC BUTTON */
+.prof-pic-btn{display:inline-flex;align-items:center;gap:6px;margin-top:8px}
 /* LIGHTBOX */
 #lightbox{position:fixed;inset:0;z-index:990;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center}
 #lightbox.on{display:flex}
@@ -530,10 +579,14 @@ img{max-width:100%;display:block}
 <div id="bg11" class="bg-layer"></div>
 <div id="chat-overlay"></div>
 <!-- AUDIO -->
-<audio id="audio" loop preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"/></audio>
+<audio id="audio" preload="none"></audio>
 <div id="toast-wrap"></div>
 <!-- LIGHTBOX -->
 <div id="lightbox"><button id="lb-close" onclick="closeLb()">✕</button><img id="lb-img" src="" style="display:none"/><video id="lb-vid" src="" controls style="display:none"></video></div>
+<!-- LETTER OPEN MODAL -->
+<div id="letter-modal" onclick="if(event.target===this)closeLetter()">
+<div class="letter-envelope" id="letter-envelope"></div>
+</div>
 <!-- STORY VIEWER -->
 <div id="sv"><div class="sv-in"><img id="sv-img" class="sv-media" src="" style="display:none"/><video id="sv-vid" class="sv-media" src="" style="display:none" playsinline></video><div class="sv-ovr"></div><div class="sv-top"><div class="sv-bars" id="sv-bars"></div><div class="sv-av"><img id="sv-av-img" src=""/></div><span class="sv-nm" id="sv-nm"></span><button class="sv-close" onclick="closeStory()">✕</button></div><div class="sv-bot"><div class="sv-cap" id="sv-cap"></div></div><div class="sv-navs"><div class="sv-prev" onclick="svPrev()"></div><div class="sv-next" onclick="svNext()"></div></div></div></div>
 <!-- MODALS -->
@@ -543,7 +596,7 @@ img{max-width:100%;display:block}
 <!-- LOGIN -->
 <div class="page active" id="pg-login">
 <div class="card card-anim">
-<div class="brand"><div class="brand-ico">🎓</div><div class="brand-name">Weinberg Class</div><div class="brand-sub">Sign in to your class space</div></div>
+<div class="brand"><div class="brand-ico">🎓</div><div class="brand-name">Chong Hua People</div><div class="brand-sub">Sign in to your class space</div></div>
 <div id="le" class="alrt ae"><span>⚠</span><span class="am"></span></div>
 <div id="ls" class="alrt as"><span>✓</span><span class="am"></span></div>
 <div class="field"><label class="flbl">Email</label><div class="iw"><span class="iico">✉</span><input type="email" id="lem" placeholder="you@example.com" autocomplete="email" inputmode="email"/></div></div>
@@ -556,7 +609,7 @@ img{max-width:100%;display:block}
 <!-- REGISTER -->
 <div class="page" id="pg-reg">
 <div class="card card-anim">
-<div class="brand"><div class="brand-ico">🎓</div><div class="brand-name">Weinberg Class</div><div class="brand-sub">Join your class community</div></div>
+<div class="brand"><div class="brand-ico">🎓</div><div class="brand-name">Chong Hua People</div><div class="brand-sub">Join your class community</div></div>
 <div id="re" class="alrt ae"><span>⚠</span><span class="am"></span></div>
 <div id="rs" class="alrt as"><span>✓</span><span class="am"></span></div>
 <div class="field"><label class="flbl">Email</label><div class="iw"><span class="iico">✉</span><input type="email" id="rem2" placeholder="you@example.com" autocomplete="email" inputmode="email"/></div></div>
@@ -598,15 +651,20 @@ img{max-width:100%;display:block}
 <div class="tb-desc" id="tb-desc">General discussion</div>
 <span class="op-pill" id="tb-online">1 online</span>
 <div class="tb-acts">
-<button class="tb-btn" type="button" onclick="openModal('mod-find')" title="Find people">👥</button>
+<button class="tb-btn notif-btn" type="button" onclick="toggleNotifPanel()" title="Notifications">🔔<span class="notif-bdg hide" id="notif-bdg">0</span></button>
+<button class="tb-btn" type="button" onclick="openModal('mod-find');searchUsers('')" title="Find people">👥</button>
 <button class="tb-btn" type="button" id="music-tog" onclick="toggleMusic()" title="Music">🎵</button>
 </div>
+</div>
+<div class="notif-panel" id="notif-panel">
+<div class="notif-hd"><h4>🔔 Notifications</h4><button type="button" onclick="markAllNotifsRead()">Mark all read</button></div>
+<div class="notif-list" id="notif-list"><div class="es" style="padding:20px 8px"><div class="es-ico">🔔</div><div class="es-ttl" style="font-size:12px">No notifications yet</div></div></div>
 </div>
 <div class="app-body">
 <!-- SIDEBAR -->
 <aside class="sb" id="sb">
 <div class="sb-hd">
-<div class="sb-logo"><div class="sb-lic">🎓</div><div><div class="sb-lt">Weinberg Class</div><div class="sb-ls">Class of 2026</div></div></div>
+<div class="sb-logo"><div class="sb-lic">🎓</div><div><div class="sb-lt">Chong Hua People</div><div class="sb-ls">Class of 2026</div></div></div>
 <div class="sb-srch"><span class="sbsico">🔍</span><input type="search" id="srch" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off"/></div>
 </div>
 <div class="sb-sec">Menu</div>
@@ -679,7 +737,7 @@ img{max-width:100%;display:block}
 <!-- FOLLOWING PANEL -->
 <div class="panel" id="panel-friends">
 <div class="sa"><div class="friends-wrap">
-<div class="friends-hd"><h2>👥 Following</h2><button class="btn btn-primary btn-sm" type="button" onclick="openModal('mod-find')">+ Follow Someone</button></div>
+<div class="friends-hd"><h2>👥 Following</h2><button class="btn btn-primary btn-sm" type="button" onclick="openModal('mod-find');searchUsers('')">+ Follow Someone</button></div>
 <div id="friends-list"></div>
 </div></div>
 </div>
@@ -689,7 +747,7 @@ img{max-width:100%;display:block}
 <div class="conf-compose">
 <h3>💌 Write a Confession</h3>
 <div class="conf-field"><label>From (or "Anonymous")</label><input class="conf-input" id="conf-from" placeholder="Anonymous"/></div>
-<div class="conf-field"><label>To</label><input class="conf-input" id="conf-to" placeholder="e.g. Maria"/></div>
+<div class="conf-field tag-wrap"><label>Tag Someone 💕</label><input class="conf-input" id="conf-to" placeholder="Type a name to tag a classmate…" autocomplete="off" oninput="confTagSearch(this.value)" onfocus="confTagSearch(this.value)"/><div class="tag-suggest" id="conf-tag-suggest"></div><div id="conf-tag-chip"></div></div>
 <div class="conf-field"><label>Your Message</label><textarea class="conf-ta" id="conf-msg" placeholder="Tell them what's on your heart… It will be auto-formatted into a letter." rows="4" oninput="prevConf()"></textarea></div>
 <div class="conf-preview" id="conf-preview"><div class="conf-letter" id="conf-letter"></div></div>
 <div class="conf-acts">
@@ -740,6 +798,7 @@ img{max-width:100%;display:block}
 <div class="prof-body">
 <div class="prof-name" id="prof-name">…</div>
 <div class="prof-email" id="prof-email">…</div>
+<button class="btn btn-ghost btn-sm prof-pic-btn" type="button" onclick="trigAV()">📷 Change Profile Picture</button>
 <div class="prof-stats">
 <div class="pstat"><div class="pstat-n" id="prof-posts">0</div><div class="pstat-l">Posts</div></div>
 <div class="pstat"><div class="pstat-n" id="prof-followers">0</div><div class="pstat-l">Followers</div></div>
@@ -759,22 +818,22 @@ img{max-width:100%;display:block}
 </div><!-- /app-body -->
 <!-- MUSIC BAR -->
 <div id="mbar" class="hide">
-<div class="mico">🎵</div>
-<div class="minfo"><div class="mtitle">Sulitin</div><div class="martist">Guddhist Gunatita</div></div>
+<div class="mico">💗</div>
+<div class="minfo"><div class="mtitle" id="m-title">Study &amp; Love Mix</div><div class="martist" id="m-artist">Soft instrumentals for you two</div></div>
 <div class="mpwrap">
 <span class="mtime" id="m-curr">0:00</span>
 <div class="mprog" id="mprog" onclick="seekM(event)"><div class="mpfill" id="mpfill"></div></div>
 <span class="mtime" id="m-dur">0:00</span>
 </div>
 <div class="mctrl">
-<button class="mcbtn" type="button" onclick="seekBk()">⏮</button>
+<button class="mcbtn" type="button" onclick="prevTrack()" title="Previous song">⏮</button>
 <button class="mcbtn playbtn" id="play-btn" type="button" onclick="toggleMusic()">▶</button>
-<button class="mcbtn" type="button" onclick="seekFw()">⏭</button>
+<button class="mcbtn" type="button" onclick="nextTrack()" title="Next song">⏭</button>
 <div class="mvol" onclick="setVol(event)" title="Volume"><div class="mvfill" id="mvfill"></div></div>
 </div>
 </div>
 <!-- SUBSCRIPTION FOOTER -->
-<div class="sub-footer">🎓 <span>Weinberg Class 2026</span> — Made with ❤️ for our class memories</div>
+<div class="sub-footer">🎓 <span>Chong Hua People 2026</span> — Made with ❤️ for our class memories</div>
 </div><!-- /pg-app -->
 
 <script type="module">
@@ -786,7 +845,7 @@ import{getStorage,ref as sRef,uploadBytesResumable,getDownloadURL}from'https://w
 const app=initializeApp({apiKey:"AIzaSyBpxlYUntT6flNCjCXUd4fYa6hmSmX2kpA",authDomain:"memecha-c10e2.firebaseapp.com",databaseURL:"https://memecha-c10e2-default-rtdb.firebaseio.com",projectId:"memecha-c10e2",storageBucket:"memecha-c10e2.firebasestorage.app",messagingSenderId:"682910602156",appId:"1:682910602156:web:9b7fd6beda2aa3e36ae009"});
 const auth=getAuth(app),db=getDatabase(app),storage=getStorage(app);
 
-const S={user:null,nick:null,av:0,pfp:null,bio:'',coverUrl:null,ch:'general',typing:false,typTmr:null,unsubMsg:null,unsubTyp:null,unsubPres:null,unsubDMs:{},unsubPosts:null,unsubStories:null,unsubDML:null,unsubConf:null,unsubNotes:null,unread:{general:0,random:0,memories:0,introductions:0},dmUnread:{},online:{},lastSnd:{},buf:{},openEp:null,following:{},unsubFol:null,curDMid:null,curDMnick:null,curDMav:0,curDMpfp:null,panel:'chat',storyGroups:[],svIdx:0,svSlide:0,postFile:null,storyFile:null,pendFile:null,dmPend:null,noteClr:0};
+const S={user:null,nick:null,av:0,pfp:null,bio:'',coverUrl:null,ch:'general',typing:false,typTmr:null,unsubMsg:null,unsubTyp:null,unsubPres:null,unsubDMs:{},unsubPosts:null,unsubStories:null,unsubDML:null,unsubConf:null,unsubNotes:null,unsubNotifs:null,confToUid:null,confToNick:null,unread:{general:0,random:0,memories:0,introductions:0},dmUnread:{},online:{},lastSnd:{},buf:{},openEp:null,following:{},unsubFol:null,curDMid:null,curDMnick:null,curDMav:0,curDMpfp:null,panel:'chat',storyGroups:[],svIdx:0,svSlide:0,postFile:null,storyFile:null,pendFile:null,dmPend:null,noteClr:0};
 const AVC=['#1d4ed8','#dc2626','#16a34a','#7c3aed','#b45309','#0891b2','#be185d','#0f766e','#92400e','#1e40af'];
 const NCS=['#fef08a','#86efac','#93c5fd','#f9a8d4','#fdba74','#d8b4fe'];
 const EMJ=['👍','❤️','😂','😮','😢','😡','🎉','🔥','💯','✅','👏','🙌','😍','🤔','💪','🎊','😎','🤣','🥳','💬','🫶','✨','🥰','😭','🤩','🙏','💀','👀','🫂','🎶'];
@@ -871,10 +930,10 @@ function enterApp(){
   document.getElementById('me-nm').textContent=S.nick;
   setAvEl(document.getElementById('cmp-av'),S.nick,S.av,S.pfp);
   setProfPage();go('pg-app');buildEpg();startMusic();
-  subPres();subFol();swCh(S.ch);subPosts();subStories();subDML();subConf();subNotes();
+  subPres();subFol();swCh(S.ch);subPosts();subStories();subDML();subConf();subNotes();subNotifs();
 }
 function teardown(){
-  [S.unsubMsg,S.unsubTyp,S.unsubPres,S.unsubPosts,S.unsubStories,S.unsubDML,S.unsubFol,S.unsubConf,S.unsubNotes].forEach(fn=>typeof fn==='function'&&fn());
+  [S.unsubMsg,S.unsubTyp,S.unsubPres,S.unsubPosts,S.unsubStories,S.unsubDML,S.unsubFol,S.unsubConf,S.unsubNotes,S.unsubNotifs].forEach(fn=>typeof fn==='function'&&fn());
   Object.values(S.unsubDMs).forEach(fn=>typeof fn==='function'&&fn());S.unsubDMs={};
   stopTyping();
   if(S.user){remove(ref(db,`presence/${S.user.uid}`)).catch(()=>{});remove(ref(db,`typing/${S.ch}/${S.user.uid}`)).catch(()=>{});}
@@ -1058,6 +1117,7 @@ window.doFollow=async(uid,nick,av,pfp)=>{
   if(!S.user||uid===S.user.uid)return;
   await set(ref(db,`following/${S.user.uid}/${uid}`),{nick,av,pfp:pfp||null,since:serverTimestamp()});
   await set(ref(db,`followers/${uid}/${S.user.uid}`),{nick:S.nick,av:S.av,pfp:S.pfp||null,since:serverTimestamp()});
+  await push(ref(db,`notifications/${uid}`),{type:'follow',icon:'💕',text:`${S.nick} started following you!`,fromUid:S.user.uid,fromNick:S.nick,ts:serverTimestamp(),read:false});
   toast(`Now following ${nick}! ✨`,'g');
 };
 window.doUnfol=async(uid,nick)=>{
@@ -1068,14 +1128,18 @@ window.doUnfol=async(uid,nick)=>{
 };
 window.searchUsers=async q=>{
   const el=document.getElementById('find-res');if(!el)return;
-  if(!q||q.length<2){el.innerHTML='';return;}
-  el.innerHTML='<div style="padding:7px;color:rgba(255,255,255,.36);font-size:12px">Searching…</div>';
+  el.innerHTML='<div style="padding:7px;color:rgba(255,255,255,.36);font-size:12px">Loading classmates…</div>';
   try{
     const snap=await get(ref(db,'users'));const res=[];
-    snap.forEach(c=>{if(c.key===S.user.uid)return;const d=c.val();if((d.nick||'').toLowerCase().includes(q.toLowerCase()))res.push({uid:c.key,...d});});
-    if(!res.length){el.innerHTML='<div style="padding:7px;color:rgba(255,255,255,.32);font-size:12px">No users found.</div>';return;}
+    snap.forEach(c=>{
+      if(!S.user||c.key===S.user.uid)return;
+      const d=c.val();
+      if(!q||!q.trim()||(d.nick||'').toLowerCase().includes(q.toLowerCase()))res.push({uid:c.key,...d});
+    });
+    res.sort((a,b)=>(a.nick||'').localeCompare(b.nick||''));
+    if(!res.length){el.innerHTML='<div style="padding:7px;color:rgba(255,255,255,.32);font-size:12px">No classmates found yet.</div>';return;}
     el.innerHTML='';
-    res.slice(0,10).forEach(u=>{
+    res.slice(0,50).forEach(u=>{
       const isF=!!S.following[u.uid];
       const div=document.createElement('div');div.className='ures';
       div.innerHTML=`${mkAv(u.nick||'?',u.av??0,u.pfp,32,'ures-av')}<span class="ures-nm">${esc(u.nick||'?')}</span>`;
@@ -1083,7 +1147,7 @@ window.searchUsers=async q=>{
       btn.onclick=()=>{if(isF)doUnfol(u.uid,u.nick||'');else doFollow(u.uid,u.nick||'',u.av??0,u.pfp||null);setTimeout(()=>searchUsers(document.getElementById('find-q').value),500);};
       div.appendChild(btn);el.appendChild(div);
     });
-  }catch(e){console.error(e);el.innerHTML='<div style="color:#fca5a5;font-size:12px;padding:7px">Check Firebase rules for /users.</div>';}
+  }catch(e){console.error(e);el.innerHTML='<div style="color:#fca5a5;font-size:12px;padding:7px">Couldn\'t load the list — check Firebase Database rules allow reading /users.</div>';}
 };
 
 /* DM */
@@ -1229,12 +1293,13 @@ function subCmts(postId,cId){
 }
 window.subCmt=async(postId)=>{const inp=document.getElementById(`ci-${postId}`);if(!inp)return;const text=inp.value.trim();if(!text)return;inp.value='';try{await push(ref(db,`comments/${postId}`),{text,nick:S.nick,uid:S.user.uid,av:S.av,pfp:S.pfp||null,ts:serverTimestamp()});}catch(e){console.error(e);}};
 window.submitPost=async()=>{
+  if(!S.user){toast('Please wait, still signing you in…','a');return;}
   const text=document.getElementById('post-ta').value.trim();
   if(!text&&!S.postFile){toast('Write something or add a photo!','a');return;}
   toast('Posting…','b');
   const data={text:text||'',nick:S.nick,uid:S.user.uid,av:S.av,pfp:S.pfp||null,ts:serverTimestamp(),rx:null};
-  if(S.postFile){try{const url=await upFile(S.postFile,`posts/${S.user.uid}/${Date.now()}_${S.postFile.name}`);data.imgUrl=url;data.mediaType=S.postFile.type.startsWith('video')?'video':'image';}catch(e){toast('Upload failed','r');return;}}
-  try{await push(ref(db,'posts'),data);document.getElementById('post-ta').value='';document.getElementById('post-file-lbl').textContent='';S.postFile=null;toast('Posted! 🎉','g');}catch(e){console.error(e);toast('Post failed','r');}
+  if(S.postFile){try{const url=await upFile(S.postFile,`posts/${S.user.uid}/${Date.now()}_${S.postFile.name}`);data.imgUrl=url;data.mediaType=S.postFile.type.startsWith('video')?'video':'image';}catch(e){console.error(e);toast('Photo upload failed — check Firebase Storage rules','r');return;}}
+  try{await push(ref(db,'posts'),data);document.getElementById('post-ta').value='';document.getElementById('post-file-lbl').textContent='';S.postFile=null;toast('Posted! 🎉','g');}catch(e){console.error(e);toast('Post failed — check Firebase Database rules for /posts','r');}
 };
 window.prevPost=inp=>{const f=inp.files[0];if(!f)return;S.postFile=f;document.getElementById('post-file-lbl').textContent=`📎 ${f.name.slice(0,16)}`;};
 window.delPost=async id=>{if(!confirm('Delete this post?'))return;await remove(ref(db,`posts/${id}`)).catch(console.error);toast('Post deleted','a');};
@@ -1280,6 +1345,7 @@ window.svNext=()=>{const g=S.storyGroups[S.svIdx];if(S.svSlide<(g?.stories.lengt
 window.svPrev=()=>{if(S.svSlide>0){S.svSlide--;renderSV();}else if(S.svIdx>0){S.svIdx--;S.svSlide=0;renderSV();}};
 window.previewStory=inp=>{const f=inp.files[0];if(!f)return;S.storyFile=f;const prev=document.getElementById('story-preview');if(f.type.startsWith('video'))prev.innerHTML=`<video src="${URL.createObjectURL(f)}" controls style="max-width:100%;border-radius:8px;max-height:140px"></video>`;else prev.innerHTML=`<img src="${URL.createObjectURL(f)}" style="max-width:100%;border-radius:8px;max-height:140px;object-fit:cover" alt=""/>`;};
 window.submitStory=async()=>{
+  if(!S.user){toast('Please wait, still signing you in…','a');return;}
   const cap=document.getElementById('story-cap').value.trim();
   if(!S.storyFile&&!cap){toast('Add a photo or caption!','a');return;}
   setL('story-btn',true);
@@ -1296,6 +1362,40 @@ function subConf(){
     const confs=[];snap.forEach(c=>confs.unshift({id:c.key,...c.val()}));renderConfs(confs);
   });
 }
+/* TAG SOMEONE (confession) */
+window.confTagSearch=async(q)=>{
+  const box=document.getElementById('conf-tag-suggest');if(!box)return;
+  S.confToUid=null;S.confToNick=null;
+  if(!q||!q.trim()){box.classList.remove('on');box.innerHTML='';return;}
+  try{
+    const snap=await get(ref(db,'users'));const res=[];
+    snap.forEach(c=>{if(!S.user||c.key===S.user.uid)return;const d=c.val();if((d.nick||'').toLowerCase().includes(q.toLowerCase()))res.push({uid:c.key,...d});});
+    if(!res.length){box.classList.remove('on');box.innerHTML='';return;}
+    box.innerHTML='';box.classList.add('on');
+    res.slice(0,8).forEach(u=>{
+      const opt=document.createElement('div');opt.className='tag-opt';
+      opt.innerHTML=`${mkAv(u.nick||'?',u.av??0,u.pfp,26,'ures-av')}<span class="tag-opt-nm">${esc(u.nick||'?')}</span>`;
+      opt.onclick=()=>selectConfTag(u.uid,u.nick||'?');
+      box.appendChild(opt);
+    });
+  }catch(e){console.error(e);}
+};
+window.selectConfTag=(uid,nick)=>{
+  S.confToUid=uid;S.confToNick=nick;
+  document.getElementById('conf-to').value=nick;
+  document.getElementById('conf-tag-suggest').classList.remove('on');
+  document.getElementById('conf-tag-chip').innerHTML=`<span class="tag-chip">💕 Tagged: ${esc(nick)} <button type="button" onclick="clearConfTag()">✕</button></span>`;
+  prevConf();
+};
+window.clearConfTag=()=>{
+  S.confToUid=null;S.confToNick=null;
+  document.getElementById('conf-to').value='';
+  document.getElementById('conf-tag-chip').innerHTML='';
+};
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('conf-tag-suggest');
+  if(wrap&&!e.target.closest('.tag-wrap'))wrap.classList.remove('on');
+});
 window.prevConf=()=>{
   const from=(document.getElementById('conf-from').value.trim()||'Anonymous');
   const to=document.getElementById('conf-to').value.trim()||'(Someone Special)';
@@ -1313,25 +1413,92 @@ window.submitConf=async()=>{
   if(!msg){toast('Write your message first!','a');return;}
   const now=new Date();const dateStr=now.toLocaleDateString([],{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   const letter=`${dateStr}\n\nDear ${to},\n\n${msg}\n\nWith all my heart,\n${from}`;
+  const toUid=S.confToUid||null;
   try{
-    await push(ref(db,'confessions'),{letter,from,to,uid:S.user.uid,nick:S.nick,ts:serverTimestamp(),rx:null});
+    await push(ref(db,'confessions'),{letter,from,to,toUid,uid:S.user.uid,nick:S.nick,ts:serverTimestamp(),rx:null});
+    if(toUid){
+      await push(ref(db,`notifications/${toUid}`),{type:'confession',icon:'💌',text:`You received a new anonymous confession letter! Someone out there is thinking of you 💕`,ts:serverTimestamp(),read:false});
+    }
     document.getElementById('conf-from').value='';document.getElementById('conf-to').value='';
     document.getElementById('conf-msg').value='';document.getElementById('conf-preview').classList.remove('show');
+    document.getElementById('conf-tag-chip').innerHTML='';S.confToUid=null;S.confToNick=null;
     toast('Confession sent! 💌','g');
   }catch(e){console.error(e);toast('Failed to send','r');}
 };
+S.confLetters={};
 function renderConfs(confs){
   const el=document.getElementById('conf-list');if(!el)return;
   if(!confs.length){el.innerHTML='<div class="es"><div class="es-ico">💌</div><div class="es-ttl">No confessions yet</div></div>';return;}
   el.innerHTML='';
   confs.forEach(c=>{
+    S.confLetters[c.id]=c;
     const card=document.createElement('div');card.className='conf-card';
     const rx=c.rx||{};
-    const rxH=PRXE.map(e=>{const uids=rx[e]||[];const mine=S.user&&uids.includes(S.user.uid);const cnt=uids.length;return`<button class="rc${mine?' mine':''}" style="font-size:12.5px" type="button" onclick="doRx('${c.id}','${e}','conf:${c.id}')">${e}${cnt>0?`<span class="rcn">${cnt}</span>`:''}</button>`;}).join('');
-    card.innerHTML=`<div class="conf-card-hd"><span class="conf-badge">💌 Confession</span><span class="conf-ts">${c.ts?fd(new Date(c.ts)):''}</span></div><div class="conf-txt">${esc(c.letter||'')}</div><div class="conf-footer"><span class="conf-fts">To: ${esc(c.to||'?')}</span><div class="conf-rxrow">${rxH}</div></div>`;
+    const rxH=PRXE.map(e=>{const uids=rx[e]||[];const mine=S.user&&uids.includes(S.user.uid);const cnt=uids.length;return`<button class="rc${mine?' mine':''}" style="font-size:12.5px" type="button" onclick="event.stopPropagation();doRx('${c.id}','${e}','conf:${c.id}')">${e}${cnt>0?`<span class="rcn">${cnt}</span>`:''}</button>`;}).join('');
+    card.innerHTML=`<div class="conf-card-hd"><span class="conf-badge">💌 Confession</span><span class="conf-ts">${c.ts?fd(new Date(c.ts)):''}</span></div><div class="conf-card-txt">${esc((c.letter||'').split('\n\n').slice(1).join(' ').slice(0,110))}…</div><div class="conf-footer"><span class="conf-fts">To: ${esc(c.to||'?')}</span><div class="conf-rxrow">${rxH}</div></div>`;
+    card.onclick=()=>openLetter(c.id);
     el.appendChild(card);
   });
 }
+window.openLetter=(id)=>{
+  const c=S.confLetters[id];if(!c)return;
+  const env=document.getElementById('letter-envelope');
+  const lines=(c.letter||'').split('\n\n');
+  const body=lines.slice(2).join('\n\n')||c.letter||'';
+  env.innerHTML=`<div class="letter-paper"><div class="letter-seal">💗</div><button class="letter-close" onclick="closeLetter()">✕</button><div class="letter-hd">A Letter For You</div><div class="letter-to">To: ${esc(c.to||'Someone Special')} · From: ${esc(c.from||'Anonymous')}</div><div class="letter-body">${esc(body)}</div><div class="letter-hearts">💕 ✨ 💌 ✨ 💕</div></div>`;
+  document.getElementById('letter-modal').classList.add('on');
+  playChime();
+};
+window.closeLetter=()=>{document.getElementById('letter-modal').classList.remove('on');};
+function playChime(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const notes=[659.25,783.99,987.77];
+    notes.forEach((f,i)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.type='sine';o.frequency.value=f;o.connect(g);g.connect(ctx.destination);
+      const t=ctx.currentTime+i*0.14;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.12,t+0.03);g.gain.exponentialRampToValueAtTime(0.001,t+0.5);
+      o.start(t);o.stop(t+0.55);
+    });
+  }catch(e){}
+}
+
+/* NOTIFICATIONS */
+function subNotifs(){
+  if(!S.user)return;
+  S.unsubNotifs=onValue(query(ref(db,`notifications/${S.user.uid}`),orderByChild('ts'),limitToLast(30)),snap=>{
+    const items=[];snap.forEach(c=>items.unshift({id:c.key,...c.val()}));renderNotifs(items);
+  });
+}
+function renderNotifs(items){
+  const list=document.getElementById('notif-list'),bdg=document.getElementById('notif-bdg');if(!list||!bdg)return;
+  const unread=items.filter(n=>!n.read).length;
+  bdg.textContent=unread>9?'9+':String(unread);
+  bdg.classList.toggle('hide',unread===0);
+  if(!items.length){list.innerHTML='<div class="es" style="padding:20px 8px"><div class="es-ico">🔔</div><div class="es-ttl" style="font-size:12px">No notifications yet</div></div>';return;}
+  list.innerHTML='';
+  items.forEach(n=>{
+    const item=document.createElement('div');item.className=`notif-item${n.read?'':' unread'}`;
+    item.innerHTML=`<div class="notif-ico">${n.icon||'🔔'}</div><div class="notif-txt">${esc(n.text||'')}<div class="notif-ts">${n.ts?fd(new Date(n.ts)):''}</div></div>`;
+    item.onclick=()=>markNotifRead(n.id);
+    list.appendChild(item);
+  });
+}
+window.markNotifRead=async(id)=>{if(!S.user)return;await update(ref(db,`notifications/${S.user.uid}/${id}`),{read:true}).catch(()=>{});};
+window.markAllNotifsRead=async()=>{
+  if(!S.user)return;
+  try{
+    const snap=await get(ref(db,`notifications/${S.user.uid}`));const updates={};
+    snap.forEach(c=>{if(!c.val().read)updates[`${c.key}/read`]=true;});
+    if(Object.keys(updates).length)await update(ref(db,`notifications/${S.user.uid}`),updates);
+  }catch(e){console.error(e);}
+};
+window.toggleNotifPanel=()=>{document.getElementById('notif-panel')?.classList.toggle('on');};
+document.addEventListener('click',e=>{
+  const panel=document.getElementById('notif-panel');
+  if(panel&&panel.classList.contains('on')&&!e.target.closest('.notif-panel')&&!e.target.closest('.notif-btn'))panel.classList.remove('on');
+});
 
 /* NOTES */
 function subNotes(){
@@ -1346,7 +1513,7 @@ function renderNotes(notes){
 }
 window.togNoteC=()=>document.getElementById('note-compose').classList.toggle('show');
 window.selNC=c=>{S.noteClr=c;document.querySelectorAll('.nc').forEach(el=>el.classList.toggle('on',parseInt(el.dataset.c)===c));};
-window.saveNote=async()=>{const text=document.getElementById('note-ta').value.trim();if(!text)return;try{await push(ref(db,`notes/${S.user.uid}`),{text,color:S.noteClr,ts:Date.now()});document.getElementById('note-ta').value='';document.getElementById('note-compose').classList.remove('show');toast('Note saved! 📝','g');}catch(e){console.error(e);toast('Failed to save note','r');}};
+window.saveNote=async()=>{if(!S.user){toast('Please wait, still signing you in…','a');return;}const text=document.getElementById('note-ta').value.trim();if(!text)return;try{await push(ref(db,`notes/${S.user.uid}`),{text,color:S.noteClr,ts:Date.now()});document.getElementById('note-ta').value='';document.getElementById('note-compose').classList.remove('show');toast('Note saved! 📝','g');}catch(e){console.error(e);toast('Failed to save note — check Firebase Database rules for /notes','r');}};
 window.delNote=async id=>{await remove(ref(db,`notes/${S.user.uid}/${id}`)).catch(console.error);toast('Note deleted','a');};
 
 /* PROFILE */
@@ -1384,16 +1551,39 @@ window.doSearch=q=>{document.querySelectorAll('#chat-feed [data-id]').forEach(el
 /* UNREAD */
 function rdUnread(ch){const el=document.getElementById(`sch-${ch}`);if(!el)return;let b=el.querySelector('.sbdg');const c=S.unread[ch]||0;if(c>0){if(!b){b=document.createElement('span');b.className='sbdg';el.appendChild(b);}b.textContent=c>99?'99+':c;}else b?.remove();}
 
-/* MUSIC */
+/* MUSIC — a soft playlist for studying and quiet lovey feelings 💗 */
 const aud=document.getElementById('audio');
-function startMusic(){document.getElementById('mbar').classList.remove('hide');aud.volume=0.65;aud.play().then(()=>{musPlaying=true;document.getElementById('mbar').classList.add('playing');document.getElementById('play-btn').textContent='⏸';}).catch(()=>{});aud.addEventListener('timeupdate',updMP);aud.addEventListener('loadedmetadata',()=>{document.getElementById('m-dur').textContent=fmtT(aud.duration);});}
+const MUSICLIST=[
+  {title:'Soft Focus',artist:'gentle piano for studying together',src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'},
+  {title:'Quiet Moments',artist:'warm ambience for late-night thoughts',src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3'},
+  {title:'Sweetheart Lo-fi',artist:'cozy beats for you two',src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'},
+  {title:'Dear Someone',artist:'calm strings, cozy heart',src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3'}
+];
+let mIdx=Math.floor(Math.random()*MUSICLIST.length);
+function loadTrack(i,autoplay){
+  mIdx=(i+MUSICLIST.length)%MUSICLIST.length;
+  const t=MUSICLIST[mIdx];
+  aud.src=t.src;
+  document.getElementById('m-title').textContent=t.title;
+  document.getElementById('m-artist').textContent=t.artist;
+  if(autoplay)aud.play().catch(()=>{});
+}
+function startMusic(){
+  document.getElementById('mbar').classList.remove('hide');
+  aud.volume=0.5;
+  loadTrack(mIdx,false);
+  aud.play().then(()=>{musPlaying=true;document.getElementById('mbar').classList.add('playing');document.getElementById('play-btn').textContent='⏸';}).catch(()=>{});
+  aud.addEventListener('timeupdate',updMP);
+  aud.addEventListener('loadedmetadata',()=>{document.getElementById('m-dur').textContent=fmtT(aud.duration);});
+  aud.addEventListener('ended',()=>nextTrack());
+}
 function stopMusic(){aud.pause();musPlaying=false;document.getElementById('mbar')?.classList.remove('playing');}
 function updMP(){if(!aud.duration)return;document.getElementById('mpfill').style.width=(aud.currentTime/aud.duration*100)+'%';document.getElementById('m-curr').textContent=fmtT(aud.currentTime);}
 function fmtT(s){s=Math.floor(s||0);return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 window.toggleMusic=()=>{if(musPlaying){aud.pause();musPlaying=false;document.getElementById('mbar').classList.remove('playing');document.getElementById('play-btn').textContent='▶';}else{aud.play().then(()=>{musPlaying=true;document.getElementById('mbar').classList.add('playing');document.getElementById('play-btn').textContent='⏸';}).catch(()=>{toast('Click play to start music 🎵','a');});}};
 window.seekM=e=>{if(!aud.duration)return;const r=e.currentTarget.getBoundingClientRect();aud.currentTime=(e.clientX-r.left)/r.width*aud.duration;};
-window.seekBk=()=>{aud.currentTime=Math.max(0,aud.currentTime-10);};
-window.seekFw=()=>{aud.currentTime=Math.min(aud.duration||0,aud.currentTime+10);};
+window.prevTrack=()=>{loadTrack(mIdx-1,musPlaying);if(musPlaying){document.getElementById('mbar').classList.add('playing');document.getElementById('play-btn').textContent='⏸';}};
+window.nextTrack=()=>{loadTrack(mIdx+1,musPlaying);if(musPlaying){document.getElementById('mbar').classList.add('playing');document.getElementById('play-btn').textContent='⏸';}};
 window.setVol=e=>{const r=e.currentTarget.getBoundingClientRect();const v=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));aud.volume=v;document.getElementById('mvfill').style.width=(v*100)+'%';};
 
 /* UPLOAD */
