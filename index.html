@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>StrangerLines — Class Space</title>
+<title>StrangerLines</title>
 <meta name="description" content="A realtime class space for StrangerLines — chat, group chats, My Day posts, confessions, notes, and profiles that let everyone see and connect with each other."/>
 <meta name="theme-color" content="#1e3a5f"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -203,7 +203,8 @@ img{max-width:100%;display:block}
 .tb-btn:hover{background:rgba(255,255,255,.07);color:#fff}
 /* PANELS */
 .panel{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0}
-.panel.on{display:flex}
+.panel.on{display:flex;animation:panelIn .28s var(--ease)}
+@keyframes panelIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .sa{flex:1;overflow-y:auto;overscroll-behavior:contain}
 .sa::-webkit-scrollbar{width:4px}
 .sa::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);border-radius:3px}
@@ -357,6 +358,17 @@ img{max-width:100%;display:block}
 .conv-meta{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0}
 .conv-ts{font-size:9px;color:rgba(255,255,255,.27)}
 .conv-bdg{background:var(--r);color:#fff;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:var(--rf);display:flex;align-items:center;justify-content:center;padding:0 3px}
+/* GROUP CHATS */
+.dm-sb-hd-btns{display:flex;gap:6px}
+.conv-sec-lbl{padding:9px 11px 5px;font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.grp-av{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;background:linear-gradient(135deg,rgba(219,39,119,.35),rgba(139,92,246,.35));color:#fff}
+.grp-pick-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin:12px 0 6px}
+.grp-pick-list{display:flex;flex-direction:column;gap:4px;max-height:220px;overflow-y:auto}
+.grp-pick-row{display:flex;align-items:center;gap:8px;padding:7px 8px;background:rgba(255,255,255,.05);border-radius:9px;cursor:pointer;font-size:12.5px;color:rgba(255,255,255,.82)}
+.grp-pick-row:hover{background:rgba(255,255,255,.09)}
+.grp-pick-chk{accent-color:var(--r);width:15px;height:15px;flex-shrink:0}
+.grp-pick-av{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;overflow:hidden}
+.grp-pick-av img{width:100%;height:100%;object-fit:cover}
 .dm-main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .dm-chat-hd{padding:10px 13px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;gap:8px;flex-shrink:0;background:rgba(9,14,26,.99)}
 .dm-back{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.44);font-size:16px;padding:4px;border-radius:5px;transition:all .12s}
@@ -765,6 +777,7 @@ img{max-width:100%;display:block}
 <!-- MODALS -->
 <div class="modal-bg" id="mod-find"><div class="modal"><button class="modal-close" onclick="closeModal('mod-find')">✕</button><h3>Find People</h3><input class="modal-input" id="find-q" placeholder="Search by nickname…" oninput="searchUsers(this.value)"/><div class="uresults" id="find-res"></div></div></div>
 <div class="modal-bg" id="mod-dm-new"><div class="modal"><button class="modal-close" onclick="closeModal('mod-dm-new')">✕</button><h3>New Message</h3><input class="modal-input" id="dm-q" placeholder="Search following…" oninput="filterDMSearch(this.value)"/><div class="uresults" id="dm-res"></div></div></div>
+<div class="modal-bg" id="mod-group-new"><div class="modal"><button class="modal-close" onclick="closeModal('mod-group-new')">✕</button><h3>👥 New Group Chat</h3><input class="modal-input" id="grp-name" placeholder="Group name (e.g. Study Squad)" maxlength="40"/><div class="grp-pick-lbl">Add people you follow:</div><div class="grp-pick-list" id="grp-pick-list"></div><button class="btn btn-primary" type="button" onclick="createGroup()" style="margin-top:11px"><div class="bspin"></div><span class="blbl">Create Group</span></button></div></div>
 <div class="modal-bg" id="mod-story"><div class="modal"><button class="modal-close" onclick="closeModal('mod-story')">✕</button><h3>🌅 Add to My Day</h3><textarea class="modal-input" id="story-cap" placeholder="Caption (optional)…" rows="3" style="resize:none;height:auto;min-height:60px"></textarea><label class="btn btn-ghost" style="cursor:pointer;margin-bottom:9px">📷 Choose Photo / Video<input type="file" id="story-file" accept="image/*,video/*" style="display:none" onchange="previewStory(this)"/></label><div id="story-preview"></div><button class="btn btn-primary" id="story-btn" onclick="submitStory()" style="margin-top:9px"><div class="bspin"></div><span class="blbl">Share to My Day 🌅</span></button></div></div>
 <!-- PROFILE VIEWER MODAL (NEW — "see others" everywhere) -->
 <div class="pv-bg" id="pv-bg">
@@ -912,7 +925,7 @@ img{max-width:100%;display:block}
 <!-- DM PANEL -->
 <div class="panel" id="panel-dm">
 <div class="dm-layout">
-<div class="dm-sb"><div class="dm-sb-hd"><h3>Messages</h3><button class="dm-newbtn" type="button" onclick="openModal('mod-dm-new')" title="New">✏️</button></div><div class="dm-convs" id="dm-conv-list"></div></div>
+<div class="dm-sb"><div class="dm-sb-hd"><h3>Messages</h3><div class="dm-sb-hd-btns"><button class="dm-newbtn" type="button" onclick="openGroupModal()" title="New Group">👥</button><button class="dm-newbtn" type="button" onclick="openModal('mod-dm-new')" title="New Message">✏️</button></div></div><div class="dm-convs" id="dm-conv-list"><div id="dm-group-list"></div><div id="dm-conv-list-inner"></div></div></div>
 <div class="dm-main" id="dm-main"><div class="es"><div class="es-ico">💌</div><div class="es-ttl">Select a conversation</div></div></div>
 </div>
 </div>
@@ -1160,6 +1173,12 @@ const S = {
   unsubDMs: {},
   unsubDML: null,
   curDMid: null,
+  myGroups: {},
+  curGroupId: null,
+  curGroupName: '',
+  unsubGroups: null,
+  unsubGroupMsg: null,
+  groupUnread: {},
   curDMnick: null,
   curDMav: 0,
   curDMpfp: null,
@@ -1470,6 +1489,7 @@ async function upFile(file, path) {
    ctx tells doRx() which database path to toggle the reaction on:
      'ch'        -> channels/{S.ch}/msgs/{id}/rx/{emoji}
      'dm'        -> dms/{S.curDMid}/msgs/{id}/rx/{emoji}
+     'group'     -> groupMsgs/{S.curGroupId}/{id}/rx/{emoji}
      'post:{id}' -> posts/{id}/rx/{emoji}
      'conf:{id}' -> confessions/{id}/rx/{emoji}
    ============================================================ */
@@ -1490,6 +1510,7 @@ window.doRx = async (msgId, emoji, ctx) => {
   let path;
   if (ctx === 'ch') path = `channels/${S.ch}/msgs/${msgId}/rx/${emoji}`;
   else if (ctx === 'dm') path = `dms/${S.curDMid}/msgs/${msgId}/rx/${emoji}`;
+  else if (ctx === 'group') path = `groupMsgs/${S.curGroupId}/${msgId}/rx/${emoji}`;
   else if (ctx.startsWith('post:')) path = `posts/${ctx.slice(5)}/rx/${emoji}`;
   else if (ctx.startsWith('conf:')) path = `confessions/${ctx.slice(5)}/rx/${emoji}`;
   else return;
@@ -2074,6 +2095,7 @@ window.sendFile = async (input, ctx) => {
     const isV = file.type.startsWith('video');
     if (ctx === 'chat') { S.pendFile = { url, type: isV ? 'video' : 'image' }; await sendMsg(); }
     else if (ctx === 'dm') { await window.sendDMfile(url, isV ? 'video' : 'image'); }
+    else if (ctx === 'group') { S.dmPend = { url, type: isV ? 'video' : 'image' }; await window.sendGroupMsg(); }
   } catch (e) { console.error(e); toast('Upload failed. Enable Firebase Storage.', 'r'); }
 };
 
@@ -2196,6 +2218,7 @@ window.openDMwith = (uid, nick, av, pfp) => {
 };
 
 function openDMconv(convId, nick, av, pfp, otherUid) {
+  window.closeGroupThread?.();
   if (S.unsubDMs[convId]) S.unsubDMs[convId]();
   S.curDMid = convId; S.curDMnick = nick; S.curDMav = av; S.curDMpfp = pfp; S.curDMuid = otherUid;
   S.dmUnread[convId] = 0; updDMbdg();
@@ -2305,9 +2328,9 @@ function subDML() {
   });
 }
 function renderDML(convs) {
-  const el = document.getElementById('dm-conv-list'); if (!el) return;
+  const el = document.getElementById('dm-conv-list-inner'); if (!el) return;
   el.innerHTML = '';
-  if (!convs.length) { el.innerHTML = '<div style="padding:16px;text-align:center;color:rgba(255,255,255,.27);font-size:12px">No conversations yet</div>'; return; }
+  if (!convs.length) { el.innerHTML = '<div style="padding:16px;text-align:center;color:rgba(255,255,255,.27);font-size:12px">No direct messages yet</div>'; return; }
   convs.forEach(({ id, meta }) => {
     const otherUid = id.replace(S.user.uid, '').replace(/^_|_$/g, '');
     const fd = S.following[otherUid];
@@ -2323,7 +2346,9 @@ function renderDML(convs) {
   updDMbdg();
 }
 function updDMbdg() {
-  const t = Object.values(S.dmUnread).reduce((a, b) => a + (b || 0), 0);
+  const dmT = Object.values(S.dmUnread).reduce((a, b) => a + (b || 0), 0);
+  const grpT = Object.values(S.groupUnread || {}).reduce((a, b) => a + (b || 0), 0);
+  const t = dmT + grpT;
   const b = document.getElementById('dm-bdg'); if (!b) return;
   if (t > 0) { b.textContent = t > 99 ? '99+' : t; b.classList.remove('sbhide'); } else b.classList.add('sbhide');
 }
@@ -2338,6 +2363,205 @@ window.filterDMSearch = q => {
     div.innerHTML = `${mkAv(d.nick || '?', d.av ?? 0, d.pfp, 32, 'ures-av', '', uid)}<span class="ures-nm">${esc(d.nick || '?')}</span><button class="fact fact-msg" type="button" onclick="openDMwith('${uid}','${esc(d.nick || '')}',${d.av ?? 0},'${esc(d.pfp || '')}')">Message</button>`;
     el.appendChild(div);
   });
+};
+
+/* ============================== group.js ============================== */
+/* ============================================================
+   group.js
+   --------------------------------------------------------------
+   Group chats. A group is a small metadata record at groups/$gid
+   (name, creator, members) plus its own message thread at
+   groupMsgs/$gid. Membership is a simple {uid:true} map so "is
+   this my group?" is just a key lookup, same spirit as how DM
+   conversation ids are built from the two participants.
+   Any member can rename the group — it's a shared space, not a
+   single owner's — and any member can leave.
+   ============================================================ */
+
+window.openGroupModal = () => {
+  const list = document.getElementById('grp-pick-list');
+  const entries = Object.entries(S.following || {});
+  if (!entries.length) {
+    list.innerHTML = '<div style="padding:10px;color:rgba(255,255,255,.35);font-size:12px">Follow some classmates first — you can only group up with people you follow.</div>';
+  } else {
+    list.innerHTML = entries.map(([uid, d]) => `
+      <label class="grp-pick-row">
+        <input type="checkbox" class="grp-pick-chk" value="${uid}"/>
+        ${mkAv(d.nick || '?', d.av ?? 0, d.pfp, 26, 'grp-pick-av', '', uid)}
+        <span>${esc(d.nick || '?')}</span>
+      </label>`).join('');
+  }
+  document.getElementById('grp-name').value = '';
+  openModal('mod-group-new');
+};
+
+window.createGroup = async () => {
+  if (!S.user) { toast('Please wait, still signing you in…', 'a'); return; }
+  const picked = [...document.querySelectorAll('.grp-pick-chk:checked')].map(c => c.value);
+  if (!picked.length) { toast('Pick at least one person to add', 'a'); return; }
+  let name = document.getElementById('grp-name').value.trim();
+  if (!name) {
+    const names = picked.slice(0, 3).map(uid => S.following[uid]?.nick || '?');
+    name = [S.nick, ...names].join(', ').slice(0, 40);
+  }
+  const members = { [S.user.uid]: true }; picked.forEach(uid => { members[uid] = true; });
+  const btn = document.querySelector('#mod-group-new .btn-primary');
+  if (btn) btn.classList.add('ld');
+  try {
+    const newRef = push(ref(db, 'groups'));
+    await set(newRef, { name, createdBy: S.user.uid, createdByNick: S.nick, members, lastMsg: 'Group created 🎉', lastTs: serverTimestamp() });
+    closeModal('mod-group-new');
+    toast(`"${name}" created! 🎉`, 'g');
+    window.swP('dm');
+    openGroupConv(newRef.key, name);
+  } catch (e) { console.error(e); toast('Could not create the group — check Firebase Database rules for /groups', 'r'); }
+  finally { if (btn) btn.classList.remove('ld'); }
+};
+
+function subGroups() {
+  if (!S.user) return;
+  if (typeof S.unsubGroups === 'function') S.unsubGroups();
+  S.unsubGroups = onValue(ref(db, 'groups'), snap => {
+    const groups = [];
+    snap.forEach(c => { const v = c.val(); if (v?.members?.[S.user.uid]) groups.push({ id: c.key, ...v }); });
+    groups.sort((a, b) => (b.lastTs || 0) - (a.lastTs || 0));
+    S.myGroups = {}; groups.forEach(g => { S.myGroups[g.id] = g; const u = g[`unread_${S.user.uid}`] || 0; if (u > 0) S.groupUnread[g.id] = u; else delete S.groupUnread[g.id]; });
+    renderGroups(groups);
+    if (S.curGroupId && S.myGroups[S.curGroupId]) updateGroupHeaderName(S.myGroups[S.curGroupId].name);
+  }, e => console.error('groups sub failed — check Firebase Database rules for /groups', e));
+}
+
+function renderGroups(groups) {
+  const el = document.getElementById('dm-group-list'); if (!el) return;
+  if (!groups.length) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="conv-sec-lbl">Groups</div>` + groups.map(g => {
+    const unread = S.groupUnread[g.id] || 0;
+    const memberCount = Object.keys(g.members || {}).length;
+    return `<div class="conv-item group-item${S.curGroupId === g.id ? ' on' : ''}" data-group="${g.id}" onclick="openGroupConv('${g.id}','${esc(g.name).replace(/'/g, "\\'")}')">
+      <div class="grp-av">👥</div>
+      <div class="conv-info"><div class="conv-nm">${esc(g.name)}</div><div class="conv-prev">${esc(g.lastMsg || '')} · ${memberCount} members</div></div>
+      <div class="conv-meta"><span class="conv-ts">${g.lastTs ? ft(new Date(g.lastTs)) : ''}</span>${unread > 0 ? `<span class="conv-bdg">${unread}</span>` : ''}</div>
+    </div>`;
+  }).join('') + `<div class="conv-sec-lbl">Direct Messages</div>`;
+  updDMbdg();
+}
+
+window.closeGroupThread = () => {
+  if (S.curGroupId && typeof S.unsubGroupMsg === 'function') { S.unsubGroupMsg(); S.unsubGroupMsg = null; }
+  S.curGroupId = null;
+};
+
+window.openGroupConv = (gid, name) => {
+  window.closeDMThread?.(); // only one thread live in #dm-main at a time
+  window.closeGroupThread();
+  S.curGroupId = gid; S.curGroupName = name;
+  S.groupUnread[gid] = 0; updDMbdg();
+  update(ref(db, `groups/${gid}`), { [`unread_${S.user.uid}`]: 0 }).catch(() => {});
+  const g = S.myGroups[gid] || {};
+  const memberCount = Object.keys(g.members || {}).length;
+  const main = document.getElementById('dm-main');
+  main.innerHTML = `
+    <div class="dm-chat-hd">
+      <button class="dm-back" type="button" onclick="closeGroupThreadView()">←</button>
+      <div class="grp-av" style="width:30px;height:30px;font-size:15px">👥</div>
+      <span id="grp-hd-name" style="font-size:13px;font-weight:700;color:#fff;cursor:pointer" onclick="renameGroup('${gid}')" title="Tap to rename">${esc(name)} ✏️</span>
+      <span style="margin-left:8px;font-size:10.5px;color:rgba(255,255,255,.35)" id="grp-hd-members">${memberCount} members</span>
+      <button class="dm-back" style="margin-left:auto" type="button" onclick="leaveGroup('${gid}')" title="Leave group">🚪</button>
+    </div>
+    <div class="sa" id="dm-wrap"><div class="cfeed" id="dm-feed"><div class="es" id="dm-empty"><div class="es-ico">👥</div><div class="es-ttl">Say hi to the group!</div></div></div></div>
+    <div class="ia" style="padding:8px 11px 10px">
+      <div class="ibox">
+        <div class="in-tools"><label class="intl" style="cursor:pointer">📎<input type="file" id="dm-file" accept="image/*,video/*" style="display:none" onchange="sendFile(this,'group')"/></label></div>
+        <textarea id="dm-in" rows="1" placeholder="Message ${esc(name)}…" maxlength="2000" oninput="onDMI()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendGroupMsg()}" style="flex:1;border:none;outline:none;background:transparent;font-family:inherit;font-size:14px;color:rgba(255,255,255,.86);resize:none;line-height:1.5;min-height:22px;max-height:95px;overflow-y:auto;padding:2px 0"></textarea>
+        <button class="sndbtn" id="dm-snd" type="button" onclick="sendGroupMsg()" disabled>➤</button>
+      </div>
+    </div>`;
+  const buf = new Map(); S.lastSnd['group-' + gid] = null;
+  const q = query(ref(db, `groupMsgs/${gid}`), orderByChild('ts'), limitToLast(300));
+  const aH = onChildAdded(q, snap => {
+    const d = { id: snap.key, ...snap.val() };
+    if (!buf.has(snap.key)) { buf.set(snap.key, d); appendGroupMsg(gid, d); }
+  });
+  const cH = onChildChanged(q, snap => { const d = { id: snap.key, ...snap.val() }; buf.set(snap.key, d); updateME(snap.key, d, 'group'); });
+  S.unsubGroupMsg = () => { off(q, 'child_added', aH); off(q, 'child_changed', cH); };
+  document.querySelectorAll('.conv-item').forEach(e => e.classList.remove('on'));
+  document.querySelector(`.group-item[data-group="${gid}"]`)?.classList.add('on');
+};
+window.closeGroupThreadView = () => {
+  window.closeGroupThread();
+  document.getElementById('dm-main').innerHTML = '<div class="es"><div class="es-ico">💌</div><div class="es-ttl">Select a conversation</div></div>';
+};
+
+function updateGroupHeaderName(name) {
+  const el = document.getElementById('grp-hd-name'); if (el) el.innerHTML = `${esc(name)} ✏️`;
+}
+
+function appendGroupMsg(gid, d) {
+  if (!S.curGroupId || gid !== S.curGroupId) return;
+  const feed = document.getElementById('dm-feed'); if (!feed) return;
+  const empty = document.getElementById('dm-empty'); if (empty) empty.style.display = 'none';
+  const uid = d.uid || '', nick = d.nick || 'Unknown', text = d.text || '';
+  const ts = d.ts ? new Date(d.ts) : new Date(), av = d.av ?? 0, pfp = d.pfp || null;
+  const own = uid === S.user?.uid, id = d.id, rx = d.rx || {};
+  const key = 'group-' + gid; const prev = feed.querySelectorAll('[data-id]');
+  if (!prev.length) feed.appendChild(mkDSep(ts));
+  const last = S.lastSnd[key]; const cont = last && last.uid === uid && (ts.getTime() - last.ts) < 300000;
+  S.lastSnd[key] = { uid, ts: ts.getTime() };
+  const el = document.createElement('div'); el.setAttribute('data-id', id);
+  const rxH = mkRx(rx, id, 'group'); const mH = mkDMMed(d);
+  const nameTag = !own ? `<span class="mnm" style="font-size:10.5px;color:var(--r);margin-right:5px" class="clickable-nm" onclick="vProf('${uid}')">${esc(nick)}</span>` : '';
+  if (cont) {
+    el.className = 'mc' + (own ? ' own' : '');
+    el.innerHTML = `<div class="cts">${ft(ts)}</div><div class="mtxt">${lfy(esc(text))}</div>${mH}${rxH}<div class="macts"><button class="mab" type="button" onclick="togMEp('${id}','group')">😊</button></div><div class="ep-pop" id="ep${id}"></div>`;
+  } else {
+    el.className = 'mg' + (own ? ' own' : '');
+    el.innerHTML = `${mkAv(nick, av, pfp, 32, 'mav', '', uid)}<div class="mb"><div class="mhdr"><span class="mnm${own ? ' own' : ''}">${esc(nick)}</span><span class="mts">${ft(ts)}</span></div><div class="mtxt">${lfy(esc(text))}</div>${mH}${rxH}</div><div class="macts"><button class="mab" type="button" onclick="togMEp('${id}','group')">😊</button></div><div class="ep-pop" id="ep${id}"></div>`;
+  }
+  feed.appendChild(el);
+  const f = document.getElementById('dm-wrap'); if (f) f.scrollTop = f.scrollHeight;
+}
+
+window.sendGroupMsg = async () => {
+  if (!S.curGroupId) return;
+  const inp = document.getElementById('dm-in'); if (!inp) return;
+  const text = inp.value.trim(); if (!text && !S.dmPend) return;
+  inp.value = ''; inp.style.height = 'auto'; const b = document.getElementById('dm-snd'); if (b) b.disabled = true;
+  const gid = S.curGroupId;
+  const data = { text: text || '', nick: S.nick, uid: S.user.uid, av: S.av, pfp: S.pfp || null, ts: serverTimestamp(), rx: null };
+  if (S.dmPend) { data.imgUrl = S.dmPend.url; data.mediaType = S.dmPend.type; S.dmPend = null; }
+  try {
+    await push(ref(db, `groupMsgs/${gid}`), data);
+    const g = S.myGroups[gid] || {};
+    const updates = { lastMsg: text || '📎 Media', lastTs: serverTimestamp() };
+    Object.keys(g.members || {}).forEach(uid => {
+      if (uid === S.user.uid) return;
+      updates[`unread_${uid}`] = (g[`unread_${uid}`] || 0) + 1;
+    });
+    await update(ref(db, `groups/${gid}`), updates);
+  } catch (e) { console.error(e); toast('Message failed to send', 'r'); }
+};
+
+window.renameGroup = async gid => {
+  const g = S.myGroups[gid]; if (!g) return;
+  const next = prompt('Rename this group:', g.name);
+  if (next === null) return;
+  const name = next.trim().slice(0, 40);
+  if (!name) { toast('Group name can\u2019t be empty', 'a'); return; }
+  try {
+    await update(ref(db, `groups/${gid}`), { name });
+    updateGroupHeaderName(name);
+    toast('Group renamed ✏️', 'g');
+  } catch (e) { console.error(e); toast('Could not rename — check Firebase Database rules for /groups', 'r'); }
+};
+
+window.leaveGroup = async gid => {
+  const g = S.myGroups[gid]; if (!g || !S.user) return;
+  if (!confirm(`Leave "${g.name}"? You'll stop seeing new messages.`)) return;
+  try {
+    await remove(ref(db, `groups/${gid}/members/${S.user.uid}`));
+    window.closeGroupThreadView();
+    toast('You left the group', 'a');
+  } catch (e) { console.error(e); toast('Could not leave — check Firebase Database rules for /groups', 'r'); }
 };
 
 /* ============================== posts.js ============================== */
@@ -3345,16 +3569,18 @@ function enterApp() {
   subPosts();     // My Day feed (global)
   subStories();   // 24h stories (global)
   subDML();       // DM conversation list
+  subGroups();    // Group chat list
   subConf();      // confessions (global)
   subNotes();     // private notes + community board (global)
   subNotifs();    // live notifications
 }
 
 function teardown() {
-  [S.unsubMsg, S.unsubTyp, S.unsubPres, S.unsubPosts, S.unsubStories, S.unsubDML, S.unsubFol, S.unsubConf, S.unsubNotes, S.unsubCommunityNotes, S.unsubNotifs]
+  [S.unsubMsg, S.unsubTyp, S.unsubPres, S.unsubPosts, S.unsubStories, S.unsubDML, S.unsubGroups, S.unsubFol, S.unsubConf, S.unsubNotes, S.unsubCommunityNotes, S.unsubNotifs]
     .forEach(fn => typeof fn === 'function' && fn());
   Object.values(S.unsubDMs).forEach(fn => typeof fn === 'function' && fn());
   S.unsubDMs = {};
+  if (typeof S.unsubGroupMsg === 'function') { S.unsubGroupMsg(); S.unsubGroupMsg = null; }
   stopTyping();
   if (S.user) {
     remove(ref(db, `presence/${S.user.uid}`)).catch(() => {});
