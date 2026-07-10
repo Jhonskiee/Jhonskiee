@@ -2813,10 +2813,20 @@ function renderConfs() {
 }
 window.renderConfs = renderConfs;
 window.delConf = async id => {
-  const c = S.confLetters[id]; if (!c || !S.user || c.uid !== S.user.uid) return;
-  if (!confirm('Delete this confession letter? This cannot be undone.')) return;
-  try { await remove(ref(db, `confessions/${id}`)); toast('Letter deleted', 'a'); window.closeLetter(); }
-  catch (e) { console.error(e); toast('Failed to delete', 'r'); }
+  const c = S.confLetters[id]; if (!c || !S.user) return;
+  const isOwner = c.uid === S.user.uid;
+  const isEmptyJunk = !(c.message || '').trim();
+  if (!isOwner && !isEmptyJunk) return;
+  if (!confirm(isEmptyJunk && !isOwner ? 'Remove this empty leftover letter for everyone?' : 'Delete this confession letter? This cannot be undone.')) return;
+  try {
+    await remove(ref(db, `confessions/${id}`));
+    const check = await get(ref(db, `confessions/${id}`)).catch(() => null);
+    if (check && check.exists()) {
+      toast('Delete didn\u2019t stick — this is a Firebase Database rules issue (write allowed, but the record wasn\u2019t actually removed). Check the .write rule on /confessions.', 'r');
+      return;
+    }
+    toast('Letter deleted', 'a'); window.closeLetter();
+  } catch (e) { console.error(e); toast('Failed to delete — check Firebase Database rules for /confessions', 'r'); }
 };
 
 /* ---------- Letter modal ---------- */
@@ -2834,6 +2844,7 @@ window.openLetter = id => {
   if (isToMe && !c.revealed && !c.revealReq) acts += `<button class="letter-abtn" type="button" onclick="askReveal('${id}')">💫 Ask to Reveal</button>`;
   if (isMine && c.revealReq && !c.revealed) acts += `<button class="letter-abtn pink" type="button" onclick="revealSelf('${id}')">🎭 Reveal Yourself</button>`;
   if (isMine) acts += `<button class="letter-abtn danger" type="button" onclick="delConf('${id}')">🗑️ Delete</button>`;
+  else if (!(c.message || '').trim()) acts += `<button class="letter-abtn danger" type="button" onclick="delConf('${id}')" title="This letter has no message — looks like leftover test data">🗑️ Remove empty letter</button>`;
   let replyHtml = '';
   if (c.reply && (isMine || isToMe)) replyHtml = `<div class="letter-reply-existing"><div class="lre-lbl">💌 Reply</div><div class="lre-txt">${esc(c.reply.text || '')}</div></div>`;
   let revealHtml = '';
@@ -2979,18 +2990,20 @@ function playChime() {
 
 function subNotes() {
   if (!S.user) return;
+  if (typeof S.unsubNotes === 'function') S.unsubNotes();
   S.unsubNotes = onValue(ref(db, `notes/${S.user.uid}`), snap => {
     const notes = []; snap.forEach(c => notes.unshift({ id: c.key, ...c.val() }));
     renderNotes(notes);
-  });
+  }, e => console.error('notes sub failed — check Firebase Database rules for /notes', e));
   // NEW: realtime shared board, visible to everyone signed in.
-  S.unsubCommunityNotes = onValue(query(ref(db, 'communityNotes'), orderByChild('ts'), limitToLast(150)), snap => {
+  if (typeof S.unsubCommunityNotes === 'function') S.unsubCommunityNotes();
+  S.unsubCommunityNotes = onValue(query(ref(db, 'communityNotes'), orderByChild('ts'), limitToLast(500)), snap => {
     const notes = []; snap.forEach(c => notes.unshift({ id: c.key, ...c.val() }));
     S.communityNotes = notes;
     renderCommunityNotes(notes);
     const badge = document.getElementById('notes-community-count');
     if (badge) badge.textContent = notes.length;
-  });
+  }, e => console.error('communityNotes sub failed — check Firebase Database rules for /communityNotes', e));
 }
 
 function renderNotes(notes) {
@@ -3045,12 +3058,23 @@ window.saveNote = async () => {
   const text = document.getElementById('note-ta').value.trim();
   if (!text) return;
   try {
+    let newRef;
     if (S.notesTab === 'community') {
-      await push(ref(db, 'communityNotes'), { text, color: S.noteClr, uid: S.user.uid, nick: S.nick, av: S.av, pfp: S.pfp || null, ts: serverTimestamp() });
-      toast('Shared to the Community Board! 🌍 Everyone can see it now.', 'g');
+      newRef = push(ref(db, 'communityNotes'));
+      await set(newRef, { text, color: S.noteClr, uid: S.user.uid, nick: S.nick, av: S.av, pfp: S.pfp || null, ts: serverTimestamp() });
     } else {
-      await push(ref(db, `notes/${S.user.uid}`), { text, color: S.noteClr, ts: Date.now() });
-      toast('Note saved! 📝', 'g');
+      newRef = push(ref(db, `notes/${S.user.uid}`));
+      await set(newRef, { text, color: S.noteClr, ts: Date.now() });
+    }
+    // Same silent-failure check used for posts/confessions: a write can
+    // succeed while a stricter .read rule keeps that child invisible to
+    // every listener, which looks exactly like "notes stuck at one".
+    const check = await get(newRef).catch(() => null);
+    if (!check || !check.exists()) {
+      toast('Saved, but it isn\u2019t reading back — this is a Firebase Database READ rule blocking notes, not a page bug. Check the console rules.', 'r');
+      console.error('Note write succeeded but read-back failed for', newRef.key, '— check the .read rule on /notes or /communityNotes.');
+    } else {
+      toast(S.notesTab === 'community' ? 'Shared to the Community Board! 🌍 Everyone can see it now.' : 'Note saved! 📝', 'g');
     }
     document.getElementById('note-ta').value = '';
     document.getElementById('note-compose').classList.remove('show');
