@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ZCHHS — Chong Hua People Class Space</title>
-<meta name="description" content="A realtime class space for Chong Hua People — chat, My Day posts, confessions, notes, and profiles that let everyone see and connect with each other."/>
+<title>StrangerLines — Class Space</title>
+<meta name="description" content="A realtime class space for StrangerLines — chat, group chats, My Day posts, confessions, notes, and profiles that let everyone see and connect with each other."/>
 <meta name="theme-color" content="#1e3a5f"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&family=Playfair+Display:ital,wght@0,600;1,600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet"/>
 <style>
 /* ============================================================
-   ZCHHS — Chong Hua People class-space app
+   StrangerLines class-space app
    Stylesheet: base visual system (layout, components, responsive)
    ============================================================ */
 
@@ -489,6 +489,8 @@ img{max-width:100%;display:block}
 .letter-envelope{max-height:92vh;overflow-y:auto;scrollbar-width:thin}
 .letter-envelope::-webkit-scrollbar{width:6px}
 .letter-envelope::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);border-radius:var(--rf)}
+@keyframes bdgPop{0%{transform:scale(1)}30%{transform:scale(1.6)}55%{transform:scale(.9)}100%{transform:scale(1)}}
+.bdg-pop{animation:bdgPop .5s var(--ease)}
 /* LETTER ACTION BAR + REPLY THREAD */
 .letter-actbar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px dashed rgba(61,46,34,.22)}
 .letter-abtn{background:rgba(61,46,34,.08);border:1px solid rgba(61,46,34,.16);color:#5c4433;font-size:11px;font-weight:700;padding:6px 11px;border-radius:var(--rf);cursor:pointer;transition:all .13s;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:4px}
@@ -603,6 +605,9 @@ img{max-width:100%;display:block}
 .letter-hd{font-family:'Dancing Script',cursive;font-size:24px;color:#a8365a;text-align:center;margin-bottom:6px}
 .letter-to{font-family:'Playfair Display',serif;font-size:12.5px;color:#8a6a52;text-align:center;margin-bottom:16px;letter-spacing:.4px}
 .letter-body{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;line-height:1.85;color:#3d2e22;white-space:pre-wrap;opacity:0;animation:fadeInk 1s ease .9s forwards}
+.letter-body.tw{opacity:1;animation:none;cursor:pointer}
+.letter-body.tw.typing::after{content:'▌';animation:twBlink .8s step-end infinite;opacity:.6}
+@keyframes twBlink{50%{opacity:0}}
 @keyframes fadeInk{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .letter-hearts{text-align:center;margin-top:16px;font-size:13px;opacity:0;animation:fadeInk 1s ease 1.3s forwards}
 /* PROFILE PIC BUTTON */
@@ -773,7 +778,7 @@ img{max-width:100%;display:block}
 <!-- LOGIN -->
 <div class="page active" id="pg-login">
 <div class="card card-anim">
-<div class="brand"><div class="brand-ico">🎓</div><div class="brand-name">Chong Hua People</div><div class="brand-sub">Sign in to your class space</div></div>
+<div class="brand"><div class="brand-ico">🎓</div><div class="brand-name">StrangerLines</div><div class="brand-sub">Sign in to your class space</div></div>
 <div id="le" class="alrt ae"><span>⚠</span><span class="am"></span></div>
 <div id="ls" class="alrt as"><span>✓</span><span class="am"></span></div>
 <div class="field"><label class="flbl">Email</label><div class="iw"><span class="iico">✉</span><input type="email" id="lem" placeholder="you@example.com" autocomplete="email" inputmode="email"/></div></div>
@@ -786,7 +791,7 @@ img{max-width:100%;display:block}
 <!-- REGISTER -->
 <div class="page" id="pg-reg">
 <div class="card card-anim">
-<div class="brand"><div class="brand-ico">🎓</div><div class="brand-name">Chong Hua People</div><div class="brand-sub">Join your class community</div></div>
+<div class="brand"><div class="brand-ico">🎓</div><div class="brand-name">StrangerLines</div><div class="brand-sub">Join your class community</div></div>
 <div id="re" class="alrt ae"><span>⚠</span><span class="am"></span></div>
 <div id="rs" class="alrt as"><span>✓</span><span class="am"></span></div>
 <div class="field"><label class="flbl">Email</label><div class="iw"><span class="iico">✉</span><input type="email" id="rem2" placeholder="you@example.com" autocomplete="email" inputmode="email"/></div></div>
@@ -841,7 +846,7 @@ img{max-width:100%;display:block}
 <!-- SIDEBAR -->
 <aside class="sb" id="sb">
 <div class="sb-hd">
-<div class="sb-logo"><div class="sb-lic">🎓</div><div><div class="sb-lt">Chong Hua People</div><div class="sb-ls">Class of 2026</div></div></div>
+<div class="sb-logo"><div class="sb-lic">🎓</div><div><div class="sb-lt">StrangerLines</div><div class="sb-ls">Class of 2026</div></div></div>
 <div class="sb-srch"><span class="sbsico">🔍</span><input type="search" id="srch" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off"/></div>
 </div>
 <div class="sb-sec">Menu</div>
@@ -1036,7 +1041,7 @@ img{max-width:100%;display:block}
 </div>
 </div>
 <!-- SUBSCRIPTION FOOTER -->
-<div class="sub-footer">🎓 <span>Chong Hua People 2026</span> — Made with ❤️ for our class memories</div>
+<div class="sub-footer">🎓 <span>StrangerLines 2026</span> — Made with ❤️ for our class memories</div>
 </div><!-- /pg-app -->
 
 <script type="module">
@@ -1180,6 +1185,11 @@ const S = {
   confTheme: 0,
   confSeal: 0,
   confTab: 'all',
+  confPrevUnseen: 0,
+  confStatsReady: false,
+  letterTypeTimer: null,
+  curLetterId: null,
+  curLetterBody: '',
   confAll: [],
   confLetters: {},
 
@@ -2354,7 +2364,11 @@ function subPosts() {
 function renderPosts(posts) {
   const el = document.getElementById('posts-list'); if (!el) return;
   if (!posts.length) { el.innerHTML = '<div class="es"><div class="es-ico">🌅</div><div class="es-ttl">No posts yet</div></div>'; return; }
-  el.innerHTML = ''; posts.forEach(p => el.appendChild(buildPost(p)));
+  el.innerHTML = '';
+  posts.forEach(p => {
+    try { el.appendChild(buildPost(p)); }
+    catch (e) { console.error('Skipped a malformed post so the rest of the feed still renders:', p.id, e); }
+  });
   const pEl = document.getElementById('prof-posts');
   if (pEl) pEl.textContent = posts.filter(p => p.uid === S.user.uid).length;
   renderProfGrid(posts.filter(p => p.uid === S.user.uid));
@@ -2387,12 +2401,17 @@ function buildPost(p) {
         <button class="cmt-send" type="button" onclick="subCmt('${p.id}')">Send</button>
       </div>
     </div>`;
-  subCmts(p.id, cmtId);
+  // Each post gets exactly one live comments listener (tracked on S so a
+  // full-feed re-render doesn't pile up a fresh onValue every time).
+  S.cmtSubs = S.cmtSubs || {};
+  if (typeof S.cmtSubs[p.id] === 'function') S.cmtSubs[p.id]();
+  S.cmtSubs[p.id] = subCmts(p.id, cmtId);
   return div;
 }
 
 function subCmts(postId, cId) {
-  onValue(query(ref(db, `comments/${postId}`), orderByChild('ts'), limitToLast(30)), snap => {
+  const cRef = query(ref(db, `comments/${postId}`), orderByChild('ts'), limitToLast(30));
+  onValue(cRef, snap => {
     const el = document.getElementById(cId); if (!el) return;
     el.innerHTML = '';
     snap.forEach(c => {
@@ -2402,6 +2421,7 @@ function subCmts(postId, cId) {
       el.appendChild(item);
     });
   });
+  return () => off(cRef);
 }
 window.subCmt = async postId => {
   const inp = document.getElementById(`ci-${postId}`); if (!inp) return;
@@ -2424,7 +2444,19 @@ window.submitPost = async () => {
     } catch (e) { console.error(e); toast('Photo upload failed — check Firebase Storage rules', 'r'); return; }
   }
   try {
-    await push(ref(db, 'posts'), data);
+    const newRef = push(ref(db, 'posts'));
+    await set(newRef, data);
+    // Read the post straight back. A write can succeed while a stricter
+    // .read rule silently hides that same child from every listener —
+    // which looks exactly like "it says posted but never shows up".
+    // Catching that here turns a confusing silent failure into a clear
+    // diagnostic instead of a false "Posted!" toast.
+    const check = await get(newRef).catch(() => null);
+    if (!check || !check.exists()) {
+      toast('Saved, but it isn\u2019t showing back to you — this is a Firebase Database READ rule blocking /posts, not a bug in the page. Check the console rules for /posts.', 'r');
+      console.error('Post write succeeded but read-back failed for', newRef.key, '— check the .read rule on /posts in the Firebase console.');
+      return;
+    }
     document.getElementById('post-ta').value = '';
     document.getElementById('post-file-lbl').textContent = '';
     S.postFile = null;
@@ -2616,6 +2648,15 @@ function updateConfStats() {
   if (mEl) mEl.textContent = mine;
   if (hEl) hEl.textContent = hearts;
   if (bdg) { bdg.textContent = unseen > 9 ? '9+' : unseen; bdg.classList.toggle('sbhide', unseen === 0); }
+  // Real-time "+1" pop: only after the first load, so refreshing the page
+  // or logging in doesn't fire a fake burst for letters you already have.
+  if (S.confStatsReady && unseen > S.confPrevUnseen) {
+    const delta = unseen - S.confPrevUnseen;
+    if (bdg) { bdg.classList.remove('bdg-pop'); void bdg.offsetWidth; bdg.classList.add('bdg-pop'); }
+    toast(`💌 New confession letter for you! +${delta}`, 'g');
+  }
+  S.confPrevUnseen = unseen;
+  S.confStatsReady = true;
 }
 window.updateConfCC = () => {
   const ta = document.getElementById('conf-msg'), cc = document.getElementById('conf-cc');
@@ -2706,12 +2747,21 @@ window.submitConf = async () => {
   try {
     const newRef = push(ref(db, 'confessions'));
     await set(newRef, { from, to: toNick, toUid, message: msg, theme: S.confTheme || 0, seal: S.confSeal || 0, uid: S.user.uid, nick: S.nick, ts: serverTimestamp(), rx: null, reply: null, revealReq: false, revealed: false, revealedNick: null, seen: false });
-    await push(ref(db, `notifications/${toUid}`), { type: 'confession', icon: '💌', text: 'You received a new anonymous confession letter! Someone out there is thinking of you 💕', ts: serverTimestamp(), read: false, confId: newRef.key });
+    await push(ref(db, `notifications/${toUid}`), { type: 'confession', icon: '💌', text: `A new confession letter just arrived for you! (+1)`, ts: serverTimestamp(), read: false, confId: newRef.key });
+    // Same silent-failure check as posts: a write can succeed while a
+    // stricter .read rule keeps it invisible to every listener, which
+    // looks identical to "letters sent stuck at 1".
+    const check = await get(newRef).catch(() => null);
+    if (!check || !check.exists()) {
+      toast('Sent, but it isn\u2019t reading back — this is a Firebase Database READ rule on /confessions, not a page bug. Check the console rules.', 'r');
+      console.error('Confession write succeeded but read-back failed for', newRef.key, '— check the .read rule on /confessions.');
+    } else {
+      toast(`Confession sent to ${toNick}! 💌 (+1)`, 'g');
+    }
     document.getElementById('conf-from').value = ''; document.getElementById('conf-to').value = '';
     document.getElementById('conf-msg').value = ''; document.getElementById('conf-preview').classList.remove('show');
     document.getElementById('conf-tag-chip').innerHTML = ''; S.confToUid = null; S.confToNick = null;
     const cc = document.getElementById('conf-cc'); if (cc) cc.textContent = '0 / 800';
-    toast(`Confession sent to ${toNick}! 💌`, 'g');
   } catch (e) { console.error(e); toast('Failed to send — check your connection', 'r'); }
   finally { if (btn) btn.classList.remove('ld'); }
 };
@@ -2788,14 +2838,46 @@ window.openLetter = id => {
   if (c.reply && (isMine || isToMe)) replyHtml = `<div class="letter-reply-existing"><div class="lre-lbl">💌 Reply</div><div class="lre-txt">${esc(c.reply.text || '')}</div></div>`;
   let revealHtml = '';
   if (c.revealed && c.revealedNick) revealHtml = `<div class="letter-reveal-box">🎭 ${esc(c.revealedNick)} chose to reveal themselves as the sender!</div>`;
-  env.innerHTML = `<div class="letter-paper ${theme.cls}"><div class="letter-seal ${seal.cls}">${seal.emoji}</div><button class="letter-close" onclick="closeLetter()">✕</button><div class="letter-hd">A Letter For You</div><div class="letter-to">To: ${esc(toName)} · From: ${esc(c.from || 'Anonymous')}</div><div class="letter-body">${esc(body)}</div><div class="letter-hearts">💕 ✨ 💌 ✨ 💕</div>${revealHtml}${replyHtml}<div class="letter-actbar">${acts}</div><div id="letter-reply-slot-${id}"></div></div>`;
+  env.innerHTML = `<div class="letter-paper ${theme.cls}"><div class="letter-seal ${seal.cls}">${seal.emoji}</div><button class="letter-close" onclick="closeLetter()">✕</button><div class="letter-hd">A Letter For You</div><div class="letter-to">To: ${esc(toName)} · From: ${esc(c.from || 'Anonymous')}</div><div class="letter-body tw" id="letter-body-live" title="Tap to skip the animation" onclick="skipLetterType()"></div><div class="letter-hearts">💕 ✨ 💌 ✨ 💕</div>${revealHtml}${replyHtml}<div class="letter-actbar">${acts}</div><div id="letter-reply-slot-${id}"></div></div>`;
   document.getElementById('letter-modal').classList.add('on');
   playChime();
+  S.curLetterId = id; S.curLetterBody = body;
+  typewriterLetter(body);
   // Mark it seen so the sidebar's unread dot clears — recipient-only,
   // never touches anyone else's read state.
   if (isToMe && !c.seen) update(ref(db, `confessions/${id}`), { seen: true }).catch(() => {});
 };
-window.closeLetter = () => { document.getElementById('letter-modal').classList.remove('on'); };
+window.closeLetter = () => {
+  document.getElementById('letter-modal').classList.remove('on');
+  if (S.letterTypeTimer) { clearInterval(S.letterTypeTimer); S.letterTypeTimer = null; }
+};
+
+/** Reveals a letter's body one character at a time, like it's being
+ *  written in front of you. Uses textContent (not innerHTML) so the
+ *  animation is 100% safe against HTML injection — no esc() needed for
+ *  the reveal itself. Click anywhere on the letter to skip straight to
+ *  the full text. */
+function typewriterLetter(fullText) {
+  if (S.letterTypeTimer) { clearInterval(S.letterTypeTimer); S.letterTypeTimer = null; }
+  const el = document.getElementById('letter-body-live'); if (!el) return;
+  el.textContent = ''; el.classList.add('typing');
+  let i = 0;
+  const speed = fullText.length > 400 ? 8 : fullText.length > 150 ? 16 : 26;
+  S.letterTypeTimer = setInterval(() => {
+    i += 1;
+    el.textContent = fullText.slice(0, i);
+    if (i >= fullText.length) {
+      clearInterval(S.letterTypeTimer); S.letterTypeTimer = null;
+      el.classList.remove('typing');
+    }
+  }, speed);
+}
+window.skipLetterType = () => {
+  const el = document.getElementById('letter-body-live'); if (!el || !S.letterTypeTimer) return;
+  clearInterval(S.letterTypeTimer); S.letterTypeTimer = null;
+  el.classList.remove('typing');
+  el.textContent = S.curLetterBody || el.textContent;
+};
 window.toggleReplyBox = id => {
   const slot = document.getElementById(`letter-reply-slot-${id}`); if (!slot) return;
   if (slot.innerHTML) { slot.innerHTML = ''; return; }
