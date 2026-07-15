@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>StrangerLines</title>
+<title>StrangerLines — Class Space</title>
 <meta name="description" content="A realtime class space for StrangerLines — chat, group chats, My Day posts, confessions, notes, and profiles that let everyone see and connect with each other."/>
 <meta name="theme-color" content="#1e3a5f"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -276,6 +276,7 @@ img{max-width:100%;display:block}
 .es{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px;text-align:center;color:rgba(255,255,255,.18)}
 .es-ico{font-size:40px;margin-bottom:10px;opacity:.5}
 .es-ttl{font-size:14.5px;font-weight:700;color:rgba(255,255,255,.27);margin-bottom:4px}
+.es-sub{font-size:11.5px;color:rgba(255,255,255,.2);max-width:280px}
 /* MY DAY */
 .day-wrap{padding:14px;display:flex;flex-direction:column;gap:14px}
 .sec-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.28);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px}
@@ -315,10 +316,18 @@ img{max-width:100%;display:block}
 .post-time{font-size:10px;color:rgba(255,255,255,.32)}
 .post-del{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.28);font-size:14px;padding:5px;border-radius:6px;transition:all .12s}
 .post-del:hover{background:rgba(255,255,255,.06);color:var(--r2)}
+.post-save{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.32);font-size:15px;padding:5px;border-radius:6px;transition:all .12s}
+.post-save:hover{background:rgba(255,255,255,.06);color:#fbbf24}
+.post-save.saved{color:#fbbf24}
 .post-body{padding:9px 11px}
 .post-txt{font-size:14px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:8px}
-.post-mwrap{border-radius:9px;overflow:hidden;margin-bottom:8px}
+.post-mwrap{border-radius:9px;overflow:hidden;margin-bottom:8px;position:relative}
 .post-mwrap img,.post-mwrap video{width:100%;max-height:300px;object-fit:cover;display:block;cursor:pointer}
+.post-likeline{padding:0 11px 6px;font-size:12.5px;color:rgba(255,255,255,.7)}
+.post-likeline b{color:#fff}
+.ig-heart{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:64px;pointer-events:none;filter:drop-shadow(0 4px 14px rgba(0,0,0,.4));opacity:0}
+.ig-heart.burst{animation:igHeartBurst .85s var(--ease)}
+@keyframes igHeartBurst{0%{opacity:0;transform:translate(-50%,-50%) scale(0)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}32%{transform:translate(-50%,-50%) scale(.95)}45%{transform:translate(-50%,-50%) scale(1.05)}75%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1)}}
 .post-rxbar{display:flex;gap:4px;flex-wrap:wrap;padding:0 11px 8px}
 .prc{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--rf);cursor:pointer;font-size:12.5px;color:rgba(255,255,255,.6);font-weight:500;transition:all .12s}
 .prc:hover{background:rgba(255,255,255,.09)}
@@ -510,6 +519,12 @@ img{max-width:100%;display:block}
 .letter-abtn.danger{color:#a13030;border-color:rgba(161,48,48,.25)}
 .letter-abtn.danger:hover{background:rgba(161,48,48,.14)}
 .letter-abtn.pink{background:linear-gradient(135deg,var(--pk),var(--pk2));color:#fff;border:none}
+.letter-edited-tag{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:rgba(61,46,34,.4);vertical-align:middle;text-transform:none;letter-spacing:0}
+.letter-edit-ta{width:100%;min-height:110px;background:rgba(61,46,34,.05);border:1.5px solid rgba(61,46,34,.18);border-radius:9px;padding:10px 12px;font-family:'Playfair Display',serif;font-style:italic;font-size:14.5px;line-height:1.75;color:#3d2e22;resize:vertical;outline:none}
+.letter-edit-ta:focus{background:rgba(61,46,34,.08);border-color:rgba(61,46,34,.3)}
+.letter-edit-btns{display:flex;gap:7px;margin-top:9px;justify-content:flex-end}
+.letter-paper.t4 .letter-edit-ta{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#e6dcd2}
+.letter-paper.t4 .letter-edited-tag{color:rgba(255,255,255,.4)}
 .letter-reply-box{margin-top:12px;background:rgba(61,46,34,.06);border:1px solid rgba(61,46,34,.14);border-radius:9px;padding:10px}
 .letter-reply-ta{width:100%;background:rgba(255,255,255,.5);border:1px solid rgba(61,46,34,.2);border-radius:7px;color:#3d2e22;font-family:'Inter',sans-serif;font-size:12.5px;padding:7px 9px;outline:none;resize:none;min-height:56px;margin-bottom:7px}
 .letter-reply-existing{margin-top:14px;background:rgba(219,39,119,.06);border:1px dashed rgba(219,39,119,.28);border-radius:9px;padding:11px 12px}
@@ -557,6 +572,26 @@ img{max-width:100%;display:block}
 .note-card-ts{font-size:9.5px;color:rgba(0,0,0,.48)}
 .note-del{background:none;border:none;cursor:pointer;color:rgba(0,0,0,.38);font-size:12px;padding:2px;border-radius:4px;transition:all .12s}
 .note-del:hover{color:rgba(0,0,0,.72)}
+/* TREASURE PHOTOS */
+.tre-wrap{padding:14px;display:flex;flex-direction:column;gap:13px;max-width:980px;margin:0 auto;width:100%}
+.tre-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tre-hd h2{font-size:15px;font-weight:800;color:#fff}
+.tre-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;max-width:420px}
+.tre-search{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid var(--bdr2);border-radius:10px;padding:8px 12px}
+.tre-search input{flex:1;background:none;border:none;outline:none;color:#fff;font-size:12.5px;font-family:inherit}
+.tre-search input::placeholder{color:rgba(255,255,255,.28)}
+.tre-group{display:flex;flex-direction:column;gap:9px}
+.tre-group-lbl{font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.38);padding-left:2px}
+.tre-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.tre-item{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--bdr2);transition:transform .15s var(--ease)}
+.tre-item:hover{transform:scale(1.03)}
+.tre-item img,.tre-item video{width:100%;height:100%;object-fit:cover;display:block}
+.tre-item-vid-badge{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;border-radius:6px;padding:2px 5px;display:flex;align-items:center;gap:2px;backdrop-filter:blur(3px)}
+.tre-item-del{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;backdrop-filter:blur(3px)}
+.tre-item:hover .tre-item-del{opacity:1}
+.tre-item-cap{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 6px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);font-size:10.5px;color:#fff;opacity:0;transition:opacity .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tre-item:hover .tre-item-cap{opacity:1}
+@media(max-width:480px){.tre-grid{grid-template-columns:repeat(3,1fr);gap:5px}.tre-item-del{opacity:1}.tre-item-cap{opacity:1}}
 /* MODALS */
 .modal-bg{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.7);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:16px}
 .modal-bg.on{display:flex}
@@ -870,6 +905,7 @@ img{max-width:100%;display:block}
 <div class="sbi"    id="nav-friends"   onclick="swP('friends')">   <span class="sbi-ico">👥</span><span class="sbi-nm">Following</span></div>
 <div class="sbi"    id="nav-confession"onclick="swP('confession')"><span class="sbi-ico">💌</span><span class="sbi-nm">Confessions</span><span class="sbdg sbhide" id="conf-bdg">0</span></div>
 <div class="sbi"    id="nav-notes"     onclick="swP('notes')">     <span class="sbi-ico">📝</span><span class="sbi-nm">Notes</span></div>
+<div class="sbi"    id="nav-treasure"  onclick="swP('treasure')">  <span class="sbi-ico">📸</span><span class="sbi-nm">Treasure Photos</span></div>
 <div class="sbi"    id="nav-profile"   onclick="swP('profile')">   <span class="sbi-ico">👤</span><span class="sbi-nm">My Profile</span></div>
 </div>
 <div class="sb-sec" id="ch-sec">Channels</div>
@@ -1000,6 +1036,17 @@ img{max-width:100%;display:block}
 </div>
 <div class="notes-grid" id="notes-grid"><div class="es" style="grid-column:1/-1"><div class="es-ico">📝</div><div class="es-ttl">No notes yet</div></div></div>
 <div class="notes-grid" id="notes-grid-community" style="display:none"><div class="es" style="grid-column:1/-1"><div class="es-ico">🌍</div><div class="es-ttl">No community notes yet</div></div></div>
+</div></div>
+</div>
+<!-- TREASURE PHOTOS PANEL -->
+<div class="panel" id="panel-treasure">
+<div class="sa"><div class="tre-wrap">
+<div class="tre-hd">
+<div><h2>📸 Treasure Photos</h2><p class="tre-sub">Your private keepsake box for memorable photos &amp; videos — only you can see this.</p></div>
+<label class="btn btn-primary btn-sm" style="cursor:pointer">+ Add Memory<input type="file" id="tre-file" accept="image/*,video/*" multiple style="display:none" onchange="addTreasureFiles(this)"/></label>
+</div>
+<div class="tre-search"><span class="conf-searchico">🔎</span><input class="conf-search" id="tre-search" placeholder="Search by caption…" oninput="renderTreasure()"/></div>
+<div id="tre-groups"><div class="es"><div class="es-ico">📸</div><div class="es-ttl">No treasured memories yet</div><div class="es-sub">Save photos from My Day with 🔖, or add your own above.</div></div></div>
 </div></div>
 </div>
 <!-- PROFILE PANEL -->
@@ -1204,6 +1251,8 @@ const S = {
   confTheme: 0,
   confSeal: 0,
   confTab: 'all',
+  treasureAll: [],
+  unsubTreasure: null,
   confPrevUnseen: 0,
   confStatsReady: false,
   letterTypeTimer: null,
@@ -1524,6 +1573,24 @@ window.doRx = async (msgId, emoji, ctx) => {
   } catch (e) { console.error(e); }
 };
 
+/** Instagram-style double-tap: always ADDS the heart (never toggles it
+ *  off), and plays a burst animation — matches how every IG-like app
+ *  behaves, as opposed to the reaction bar's toggle behavior. */
+window.igLike = async (postId, evt) => {
+  if (!S.user) return;
+  const wrap = evt?.currentTarget || document.querySelector(`#post-${postId} .post-mwrap`);
+  if (wrap) {
+    const heart = wrap.querySelector('.ig-heart');
+    if (heart) { heart.classList.remove('burst'); void heart.offsetWidth; heart.classList.add('burst'); }
+  }
+  const r = ref(db, `posts/${postId}/rx/❤️`);
+  try {
+    const snap = await get(r);
+    const uids = snap.exists() ? (snap.val() || []) : [];
+    if (!uids.includes(S.user.uid)) { uids.push(S.user.uid); await set(r, uids); }
+  } catch (e) { console.error(e); }
+};
+
 window.togMEp = (id, ctx) => {
   document.querySelectorAll('.ep-pop.on').forEach(e => e.classList.remove('on'));
   if (S.openEp === id) { S.openEp = null; return; }
@@ -1616,6 +1683,25 @@ document.getElementById('lightbox').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeLb();
 });
 
+/** Small quality-of-life shortcuts: Esc backs out of whatever's open
+ *  (lightbox → letter → any modal), and "/" jumps straight to the
+ *  current page's search box instead of typing being swallowed. */
+document.addEventListener('keydown', e => {
+  const typing = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
+  if (e.key === 'Escape') {
+    if (document.getElementById('lightbox')?.classList.contains('on')) { closeLb(); return; }
+    if (document.getElementById('letter-modal')?.classList.contains('on')) { window.closeLetter(); return; }
+    const openModalEl = document.querySelector('.modal-bg.on');
+    if (openModalEl) { openModalEl.classList.remove('on'); return; }
+    if (typing) document.activeElement.blur();
+    return;
+  }
+  if (e.key === '/' && !typing) {
+    const box = document.querySelector('.panel.on #tre-search, .panel.on #conf-search, .panel.on #srch');
+    if (box) { e.preventDefault(); box.focus(); }
+  }
+});
+
 /* ---------- Sidebar (mobile) ---------- */
 window.openSb = () => {
   document.getElementById('sb').classList.add('open');
@@ -1666,7 +1752,7 @@ window.swP = p => {
   const chSec = document.getElementById('ch-sec'), chList = document.getElementById('ch-list');
   if (p === 'chat') { chSec && (chSec.style.display = ''); chList && (chList.style.display = ''); }
   else { chSec && (chSec.style.display = 'none'); chList && (chList.style.display = 'none'); }
-  const titles = { chat: '💬 Channels', myday: '🌅 My Day', dm: '✉️ Messages', friends: '👥 Following', confession: '💌 Confessions', notes: '📝 Notes', profile: '👤 Profile' };
+  const titles = { chat: '💬 Channels', myday: '🌅 My Day', dm: '✉️ Messages', friends: '👥 Following', confession: '💌 Confessions', notes: '📝 Notes', treasure: '📸 Treasure Photos', profile: '👤 Profile' };
   document.getElementById('tb-title').textContent = titles[p] || p;
   document.getElementById('tb-desc').textContent = p === 'chat' ? (CMeta[S.ch]?.desc || '') : '';
   if (window.innerWidth <= 768) closeSb();
@@ -2564,6 +2650,99 @@ window.leaveGroup = async gid => {
   } catch (e) { console.error(e); toast('Could not leave — check Firebase Database rules for /groups', 'r'); }
 };
 
+/* ============================== treasure.js ============================== */
+/* ============================================================
+   treasure.js
+   --------------------------------------------------------------
+   A private per-user keepsake box: treasures/$uid/$id. Photos and
+   videos can land here two ways — bookmarked straight off a My Day
+   post (keeps a link back via sourcePostId) or uploaded directly
+   for memories that were never posted at all. Grouped by month for
+   a simple, organized scrapbook feel.
+   ============================================================ */
+function subTreasure() {
+  if (!S.user) return;
+  if (typeof S.unsubTreasure === 'function') S.unsubTreasure();
+  S.unsubTreasure = onValue(query(ref(db, `treasures/${S.user.uid}`), orderByChild('ts'), limitToLast(1000)), snap => {
+    const items = []; snap.forEach(c => items.unshift({ id: c.key, ...c.val() }));
+    S.treasureAll = items;
+    renderTreasure();
+  }, e => console.error('treasure sub failed — check Firebase Database rules for /treasures', e));
+}
+
+function monthLabel(ts) {
+  return new Date(ts || Date.now()).toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+}
+
+window.renderTreasure = () => {
+  const el = document.getElementById('tre-groups'); if (!el) return;
+  const q = (document.getElementById('tre-search')?.value || '').trim().toLowerCase();
+  const items = (S.treasureAll || []).filter(t => !q || (t.caption || '').toLowerCase().includes(q));
+  if (!items.length) {
+    el.innerHTML = `<div class="es"><div class="es-ico">📸</div><div class="es-ttl">${q ? 'No memories match that search' : 'No treasured memories yet'}</div><div class="es-sub">${q ? '' : 'Save photos from My Day with 🔖, or add your own above.'}</div></div>`;
+    return;
+  }
+  const groups = {};
+  items.forEach(t => { const lbl = monthLabel(t.ts); (groups[lbl] = groups[lbl] || []).push(t); });
+  el.innerHTML = Object.entries(groups).map(([lbl, list]) => `
+    <div class="tre-group">
+      <div class="tre-group-lbl">${esc(lbl)} · ${list.length}</div>
+      <div class="tre-grid">${list.map(t => `
+        <div class="tre-item" onclick="openTreasureLb('${t.id}')">
+          ${t.type === 'video' ? `<video src="${esc(t.url)}" muted preload="metadata"></video><div class="tre-item-vid-badge">▶ video</div>` : `<img src="${esc(t.url)}" loading="lazy" alt=""/>`}
+          <button class="tre-item-del" type="button" onclick="event.stopPropagation();deleteTreasure('${t.id}')" title="Remove">✕</button>
+          ${t.caption ? `<div class="tre-item-cap">${esc(t.caption)}</div>` : ''}
+        </div>`).join('')}</div>
+    </div>`).join('');
+};
+
+window.openTreasureLb = id => {
+  const t = (S.treasureAll || []).find(x => x.id === id); if (!t) return;
+  window.openLb(t.type === 'video' ? 'video' : 'img', t.url);
+};
+
+/** Direct multi-file upload straight into the treasure box — for photos
+ *  and videos that were never posted anywhere, just kept for yourself. */
+window.addTreasureFiles = async input => {
+  const files = [...(input.files || [])]; input.value = '';
+  if (!files.length || !S.user) return;
+  toast(`Saving ${files.length} memor${files.length > 1 ? 'ies' : 'y'}…`, 'b');
+  let ok = 0;
+  for (const file of files) {
+    try {
+      const url = await upFile(file, `treasures/${S.user.uid}/${Date.now()}_${file.name}`);
+      const type = file.type.startsWith('video') ? 'video' : 'image';
+      await push(ref(db, `treasures/${S.user.uid}`), { url, type, caption: '', ts: serverTimestamp() });
+      ok++;
+    } catch (e) { console.error(e); }
+  }
+  toast(ok ? `${ok} memor${ok > 1 ? 'ies' : 'y'} saved 📸` : 'Could not save — check Firebase Storage rules', ok ? 'g' : 'r');
+};
+
+/** Bookmarks a My Day post's media into the treasure box, keeping a
+ *  link back to where it came from. Skips duplicates so tapping the
+ *  bookmark twice doesn't create two copies. */
+window.saveToTreasure = async postId => {
+  if (!S.user) return;
+  const already = (S.treasureAll || []).some(t => t.sourcePostId === postId);
+  if (already) { toast('Already in your Treasure Photos 📸', 'a'); return; }
+  const postEl = document.querySelector(`#post-${postId} .post-mwrap img,#post-${postId} .post-mwrap video`);
+  const url = postEl?.currentSrc || postEl?.src; if (!url) { toast('No media on this post to save', 'a'); return; }
+  const type = postEl.tagName === 'VIDEO' ? 'video' : 'image';
+  try {
+    await push(ref(db, `treasures/${S.user.uid}`), { url, type, caption: '', ts: serverTimestamp(), sourcePostId: postId });
+    toast('Saved to Treasure Photos 📸', 'g');
+    document.querySelectorAll(`.post-save[data-post="${postId}"]`).forEach(b => b.classList.add('saved'));
+  } catch (e) { console.error(e); toast('Could not save — check Firebase Database rules for /treasures', 'r'); }
+};
+
+window.deleteTreasure = async id => {
+  if (!S.user) return;
+  if (!confirm('Remove this memory from your Treasure Photos?')) return;
+  try { await remove(ref(db, `treasures/${S.user.uid}/${id}`)); toast('Removed', 'a'); }
+  catch (e) { console.error(e); toast('Could not remove — check Firebase Database rules for /treasures', 'r'); }
+};
+
 /* ============================== posts.js ============================== */
 /* ============================================================
    posts.js
@@ -2606,16 +2785,20 @@ function buildPost(p) {
     const uids = rx[e] || []; const mine = S.user && uids.includes(S.user.uid); const cnt = uids.length;
     return `<button class="prc${mine ? ' mine' : ''}" type="button" onclick="doRx('${p.id}','${e}','post:${p.id}')">${e}${cnt > 0 ? `<span style="font-size:10px;margin-left:2px;color:rgba(255,255,255,.42)">${cnt}</span>` : ''}</button>`;
   }).join('');
+  const likeCount = (rx['❤️'] || []).length;
   const cmtId = 'cmt-' + p.id;
+  const alreadySaved = (S.treasureAll || []).some(t => t.sourcePostId === p.id);
   div.innerHTML = `
     <div class="post-head">${mkAv(p.nick || '?', p.av ?? 0, p.pfp, 34, 'post-av', '', p.uid)}
       <div class="post-meta"><div class="post-author clickable-nm" onclick="vProf('${p.uid}')">${esc(p.nick || '?')}</div><div class="post-time">${p.ts ? fd(new Date(p.ts)) : ''}</div></div>
+      ${p.imgUrl ? `<button class="post-save${alreadySaved ? ' saved' : ''}" data-post="${p.id}" type="button" onclick="saveToTreasure('${p.id}')" title="Save to Treasure Photos">${alreadySaved ? '🔖' : '🏷️'}</button>` : ''}
       ${own ? `<button class="post-del" type="button" onclick="delPost('${p.id}')" title="Delete">🗑</button>` : ''}
     </div>
     <div class="post-body">
       ${p.text ? `<div class="post-txt">${lfy(esc(p.text))}</div>` : ''}
-      ${p.imgUrl ? `<div class="post-mwrap">${p.mediaType === 'video' ? `<video src="${esc(p.imgUrl)}" controls playsinline></video>` : `<img src="${esc(p.imgUrl)}" loading="lazy" onclick="openLb('img','${esc(p.imgUrl)}')" alt=""/>`}</div>` : ''}
+      ${p.imgUrl ? `<div class="post-mwrap" ondblclick="igLike('${p.id}',event)">${p.mediaType === 'video' ? `<video src="${esc(p.imgUrl)}" controls playsinline></video>` : `<img src="${esc(p.imgUrl)}" loading="lazy" onclick="openLb('img','${esc(p.imgUrl)}')" alt=""/>`}<div class="ig-heart">❤️</div></div>` : ''}
     </div>
+    ${likeCount > 0 ? `<div class="post-likeline">❤️ <b>${likeCount}</b> like${likeCount === 1 ? '' : 's'}</div>` : ''}
     <div class="post-rxbar">${rxH}</div>
     <div class="cmt-sec">
       <div class="cmt-lbl">Comments</div>
@@ -2854,7 +3037,31 @@ function subConf() {
     const confs = []; snap.forEach(c => confs.unshift({ id: c.key, ...c.val() }));
     S.confAll = confs; renderConfs(); updateConfStats();
     buildThemeSwatches();
+    refreshOpenLetterIfEdited();
   }, e => console.error('confessions sub failed', e));
+}
+
+/** If the letter currently open in the modal just changed in the DB
+ *  (an edit landed, a reply arrived, it got reacted to) and we're not
+ *  mid-typewriter or mid-edit ourselves, patch the visible text in
+ *  place so the person reading it sees the update live — without
+ *  yanking the modal shut and reopening it under them. */
+function refreshOpenLetterIfEdited() {
+  if (!S.curLetterId) return;
+  const modal = document.getElementById('letter-modal');
+  if (!modal || !modal.classList.contains('on')) return;
+  if (document.getElementById('letter-edit-ta')) return; // don't clobber an in-progress edit
+  const c = S.confLetters[S.curLetterId];
+  if (!c) { window.closeLetter(); return; }
+  const bodyEl = document.getElementById('letter-body-live');
+  if (!bodyEl || S.letterTypeTimer) return;
+  const toName = confCanSeeRecipient(c) ? (c.to || 'Someone Special') : 'a classmate';
+  const newBody = letterBodyText(toName, c.message || '', c.from || 'Anonymous');
+  if (newBody !== S.curLetterBody) {
+    S.curLetterBody = newBody;
+    bodyEl.textContent = newBody;
+    toast('This letter was just updated ✏️', 'b');
+  }
 }
 function updateConfStats() {
   const tEl = document.getElementById('conf-stat-total'), mEl = document.getElementById('conf-stat-mine'), hEl = document.getElementById('conf-stat-hearts');
@@ -3030,7 +3237,7 @@ function renderConfs() {
     // Never print the recipient's real name for anyone but the sender/recipient —
     // the public wall only ever shows that "a letter" exists, not who it's for.
     const toLabel = confCanSeeRecipient(c) ? esc(c.to || '?') : '💌 a classmate';
-    card.innerHTML = `${isMine ? `<button class="conf-del-mini" type="button" onclick="event.stopPropagation();delConf('${c.id}')" title="Delete">✕</button>` : ''}<div class="conf-card-hd"><span class="conf-badge">💌 Confession</span><span class="conf-ts">${c.ts ? fd(new Date(c.ts)) : ''}</span></div><div class="conf-card-txt">${esc(snippet)}${(c.message || '').length > 120 ? '…' : ''}</div><div class="conf-footer"><span class="conf-fts">To: ${toLabel} ${badges}</span><div class="conf-rxrow">${rxH}</div></div>`;
+    card.innerHTML = `${isMine ? `<button class="conf-del-mini" type="button" onclick="event.stopPropagation();delConf('${c.id}')" title="Delete">✕</button>` : ''}<div class="conf-card-hd"><span class="conf-badge">💌 Confession${c.edited ? ' <span class="letter-edited-tag" style="color:rgba(249,168,212,.55)">· edited</span>' : ''}</span><span class="conf-ts">${c.ts ? fd(new Date(c.ts)) : ''}</span></div><div class="conf-card-txt">${esc(snippet)}${(c.message || '').length > 120 ? '…' : ''}</div><div class="conf-footer"><span class="conf-fts">To: ${toLabel} ${badges}</span><div class="conf-rxrow">${rxH}</div></div>`;
     card.onclick = () => window.openLetter(c.id);
     el.appendChild(card);
   });
@@ -3064,6 +3271,7 @@ window.openLetter = id => {
   const toName = canSeeTo ? (c.to || 'Someone Special') : 'a classmate';
   const body = letterBodyText(toName, c.message || '', c.from || 'Anonymous');
   let acts = `<button class="letter-abtn" type="button" onclick="downloadLetterImg('${id}')">⬇️ Save Image</button><button class="letter-abtn" type="button" onclick="copyLetterText('${id}')">📋 Copy Text</button>`;
+  if (isMine) acts += `<button class="letter-abtn pink" type="button" onclick="startEditLetter('${id}')">✏️ Edit</button>`;
   if (isToMe && !c.reply) acts += `<button class="letter-abtn pink" type="button" onclick="toggleReplyBox('${id}')">💬 Reply</button>`;
   if (isToMe && !c.revealed && !c.revealReq) acts += `<button class="letter-abtn" type="button" onclick="askReveal('${id}')">💫 Ask to Reveal</button>`;
   if (isMine && c.revealReq && !c.revealed) acts += `<button class="letter-abtn pink" type="button" onclick="revealSelf('${id}')">🎭 Reveal Yourself</button>`;
@@ -3073,7 +3281,8 @@ window.openLetter = id => {
   if (c.reply && (isMine || isToMe)) replyHtml = `<div class="letter-reply-existing"><div class="lre-lbl">💌 Reply</div><div class="lre-txt">${esc(c.reply.text || '')}</div></div>`;
   let revealHtml = '';
   if (c.revealed && c.revealedNick) revealHtml = `<div class="letter-reveal-box">🎭 ${esc(c.revealedNick)} chose to reveal themselves as the sender!</div>`;
-  env.innerHTML = `<div class="letter-paper ${theme.cls}"><div class="letter-seal ${seal.cls}">${seal.emoji}</div><button class="letter-close" onclick="closeLetter()">✕</button><div class="letter-hd">A Letter For You</div><div class="letter-to">To: ${esc(toName)} · From: ${esc(c.from || 'Anonymous')}</div><div class="letter-body tw" id="letter-body-live" title="Tap to skip the animation" onclick="skipLetterType()"></div><div class="letter-hearts">💕 ✨ 💌 ✨ 💕</div>${revealHtml}${replyHtml}<div class="letter-actbar">${acts}</div><div id="letter-reply-slot-${id}"></div></div>`;
+  const editedTag = c.edited ? `<span class="letter-edited-tag">(edited)</span>` : '';
+  env.innerHTML = `<div class="letter-paper ${theme.cls}"><div class="letter-seal ${seal.cls}">${seal.emoji}</div><button class="letter-close" onclick="closeLetter()">✕</button><div class="letter-hd">A Letter For You ${editedTag}</div><div class="letter-to">To: ${esc(toName)} · From: ${esc(c.from || 'Anonymous')}</div><div class="letter-body tw" id="letter-body-live" title="Tap to skip the animation" onclick="skipLetterType()"></div><div id="letter-edit-slot"></div><div class="letter-hearts">💕 ✨ 💌 ✨ 💕</div>${revealHtml}${replyHtml}<div class="letter-actbar" id="letter-actbar">${acts}</div><div id="letter-reply-slot-${id}"></div></div>`;
   document.getElementById('letter-modal').classList.add('on');
   playChime();
   S.curLetterId = id; S.curLetterBody = body;
@@ -3081,6 +3290,37 @@ window.openLetter = id => {
   // Mark it seen so the sidebar's unread dot clears — recipient-only,
   // never touches anyone else's read state.
   if (isToMe && !c.seen) update(ref(db, `confessions/${id}`), { seen: true }).catch(() => {});
+};
+
+/** Lets the original sender rewrite their letter after it's already been
+ *  sent. Realtime by construction: as soon as the update() below lands,
+ *  the recipient's own subConf() listener (already live) re-renders their
+ *  copy with the new wording — no separate "push" needed for edits. */
+window.startEditLetter = id => {
+  const c = S.confLetters[id]; if (!c || !confIsMine(c)) return;
+  const slot = document.getElementById('letter-edit-slot');
+  const body = document.getElementById('letter-body-live');
+  if (!slot || !body) return;
+  if (S.letterTypeTimer) { clearInterval(S.letterTypeTimer); S.letterTypeTimer = null; }
+  body.style.display = 'none';
+  slot.innerHTML = `<textarea class="letter-edit-ta" id="letter-edit-ta" maxlength="800">${esc(c.message || '')}</textarea>
+    <div class="letter-edit-btns">
+      <button class="letter-abtn pink" type="button" onclick="saveEditLetter('${id}')">💾 Save changes</button>
+      <button class="letter-abtn" type="button" onclick="cancelEditLetter('${id}')">✕ Cancel</button>
+    </div>`;
+  document.getElementById('letter-edit-ta')?.focus();
+};
+window.cancelEditLetter = id => { window.openLetter(id); };
+window.saveEditLetter = async id => {
+  const ta = document.getElementById('letter-edit-ta'); if (!ta) return;
+  const msg = ta.value.trim();
+  if (!msg) { toast('The letter can\u2019t be empty', 'a'); return; }
+  try {
+    await update(ref(db, `confessions/${id}`), { message: msg, edited: true, editedAt: serverTimestamp() });
+    if (S.confLetters[id]) { S.confLetters[id].message = msg; S.confLetters[id].edited = true; }
+    toast('Letter updated ✏️ — they\u2019ll see the new version', 'g');
+    window.openLetter(id);
+  } catch (e) { console.error(e); toast('Could not save the edit — check Firebase Database rules for /confessions', 'r'); }
 };
 window.closeLetter = () => {
   document.getElementById('letter-modal').classList.remove('on');
@@ -3572,11 +3812,12 @@ function enterApp() {
   subGroups();    // Group chat list
   subConf();      // confessions (global)
   subNotes();     // private notes + community board (global)
+  subTreasure();  // private treasure photos/videos
   subNotifs();    // live notifications
 }
 
 function teardown() {
-  [S.unsubMsg, S.unsubTyp, S.unsubPres, S.unsubPosts, S.unsubStories, S.unsubDML, S.unsubGroups, S.unsubFol, S.unsubConf, S.unsubNotes, S.unsubCommunityNotes, S.unsubNotifs]
+  [S.unsubMsg, S.unsubTyp, S.unsubPres, S.unsubPosts, S.unsubStories, S.unsubDML, S.unsubGroups, S.unsubFol, S.unsubConf, S.unsubNotes, S.unsubCommunityNotes, S.unsubTreasure, S.unsubNotifs]
     .forEach(fn => typeof fn === 'function' && fn());
   Object.values(S.unsubDMs).forEach(fn => typeof fn === 'function' && fn());
   S.unsubDMs = {};
